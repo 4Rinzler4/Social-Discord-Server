@@ -1,4 +1,4 @@
-import common from "@/constants/translations/uk/common.json";
+import common from "./common.json";
 
 const uk = {
   translations: {
