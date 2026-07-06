@@ -23,7 +23,7 @@ const LangSwitcher = () => {
 
   return (
     <Select value={language} onValueChange={handleChangeLang}>
-      <SelectTrigger className="w-[250px] text-white">
+      <SelectTrigger className="w-[140px] md:w-[200px]  text-white">
         <SelectValue placeholder={t("common.lang")} />
       </SelectTrigger>
 

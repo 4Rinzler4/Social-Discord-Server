@@ -13,10 +13,8 @@ const HeaderHero = () => {
             className="h-full w-full object-cover object-center brightness-75"
           />
         </picture>
-        <div>
-          <h1 className="absolute top-1/5 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-4xl font-bold text-white lg:hidden">
-            Welcome to Our Site
-          </h1>
+        <div className="absolute top-1/5 left-1/2 transform -translate-x-1/2 -translate-y-1/2 lg:hidden">
+          <h1>Welcome to Our Site</h1>
         </div>
       </section>
     </>
