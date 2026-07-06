@@ -1,13 +1,17 @@
-import { Suspense } from "react";
+import Loader from "@/components/Loader/Loader";
+import AuthPage from "@/pages/AuthPage/AuthPage";
+import { Suspense, lazy } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+const GuestHomePage = lazy(() => import("@/pages/GuestHomePage/GuestHomePage"));
 
 const AppWrapper = () => {
   return (
     <>
       <BrowserRouter>
-        <Suspense fallback="Loading...">
+        <Suspense fallback={<Loader pageLoading={true} />}>
           <Routes>
-            <Route path="/" element={<></>} />
+            <Route path="/" element={<GuestHomePage />} />
+            <Route path="/auth" element={<AuthPage />} />
           </Routes>
         </Suspense>
       </BrowserRouter>
