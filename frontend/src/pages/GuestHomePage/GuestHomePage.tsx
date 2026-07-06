@@ -1,13 +1,13 @@
-import Header from "@/components/Header/Header";
+import GuestHeader from "@/components/GuestHeader/GuestHeader";
 import HeaderHero from "@/components/HeaderHero/HeaderHero";
 
-const HomePage = () => {
+const GuestHomePage = () => {
   return (
     <>
-      <Header />
+      <GuestHeader />
       <HeaderHero />
     </>
   );
 };
 
-export default HomePage;
+export default GuestHomePage;

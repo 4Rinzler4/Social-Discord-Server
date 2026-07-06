@@ -11,6 +11,7 @@ type UserState = {
   userName: string;
   userFullName: string;
   userAvatar: string;
+  userStatus: string;
   authChecked: boolean;
 };
 
@@ -19,6 +20,7 @@ const initialState: UserState = {
   userName: "",
   userFullName: "",
   userAvatar: "",
+  userStatus: "",
   authChecked: false,
 };
 

@@ -1,11 +1,12 @@
 import { Link, useNavigate } from "react-router-dom";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 import { FaDiscord } from "react-icons/fa";
 import { useTranslation } from "react-i18next";
-import LangSwitcher from "../LangSwitcher/LangSwitcher";
+import LangSwitcher from "@/components/LangSwitcher/LangSwitcher";
 import BurgerMenu from "@/components/BurgerMenu/BurgerMenu";
+import { TypographySmall } from "@/components/ui/typography";
 
-const Header = () => {
+const GuestHeader = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const handlePage = () => {
@@ -46,12 +47,11 @@ const Header = () => {
                 data-cursor="hover"
                 variant="default"
                 size="icon-sm"
-                className="w-full h-10  md:h-12 max-w-50 md:max-w-70 text-md md:text-2lg text-white gap-2 px-5 hover:bg-white hover:text-black transition-colors duration-300"
+                className="w-full h-10  md:h-12 max-w-50 md:max-w-70 text-white gap-2 px-5 hover:bg-white hover:text-black transition-colors duration-300"
                 onClick={handlePage}
               >
-                {" "}
                 <FaDiscord className="size-4 md:size-5" />
-                {t("common.continueDiscord")}{" "}
+                <TypographySmall>{t("common.continueDiscord")}</TypographySmall>
               </Button>
             </div>
             <LangSwitcher />
@@ -62,4 +62,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default GuestHeader;
