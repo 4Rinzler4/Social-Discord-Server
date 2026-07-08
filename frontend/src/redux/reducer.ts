@@ -24,7 +24,7 @@ const initialState: UserState = {
   authChecked: false,
 };
 
-type AccessToken = {
+type JwtPayload = {
   userId: string;
   userName: string;
   userFullName: string;
@@ -50,22 +50,25 @@ const mainSlice = createSlice({
   initialState,
   reducers: {
     setUser(state, action: PayloadAction<string>) {
-      const userData: AccessToken = parseJwt(action.payload);
-      state.userId = userData.userId;
-      state.userName = userData.userName;
-      state.userFullName = userData.userFullName;
-      state.userAvatar = userData.userAvatar;
+      try {
+        const userData = parseJwt<JwtPayload>(action.payload);
+        state.userId = userData.userId;
+        state.userName = userData.userName;
+        state.userFullName = userData.userFullName;
+        state.userAvatar = userData.userAvatar;
+        state.authChecked = true;
+      } catch {
+        Object.assign(state, initialState);
+      }
+    },
+    logout: () => initialState,
+  },
+  extraReducers: (builder) => {
+    builder.addCase(checkAuth.fulfilled, (state) => {
       state.authChecked = true;
-    },
-    logout(state) {
-      state.userId = initialState.userId;
-      state.userName = initialState.userName;
-      state.userFullName = initialState.userFullName;
-      state.userAvatar = initialState.userAvatar;
-      state.authChecked = initialState.authChecked;
-    },
+    });
   },
 });
 
-export const { setUser } = mainSlice.actions;
+export const { setUser, logout } = mainSlice.actions;
 export default mainSlice.reducer;
