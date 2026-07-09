@@ -21,7 +21,7 @@ const GuestHeader = () => {
 
   return (
     <div>
-      <header className="absolute top-0 left-0 z-50 w-full border-b border-white/30 bg-transparent backdrop-blur-xs">
+      <header className="absolute top-0 left-0 z-50 w-full border-b border-white/30 bg-transparent backdrop-blur-lg">
         <div className="w-full flex h-16 items-center justify-between px-5 lg:px-20 ">
           <div className="lg:hidden">
             <BurgerMenu navItems={navItems} />
@@ -47,7 +47,7 @@ const GuestHeader = () => {
                 data-cursor="hover"
                 variant="default"
                 size="icon-sm"
-                className="w-full h-10  md:h-12 max-w-50 md:max-w-70 text-white gap-2 px-5 hover:bg-white hover:text-black transition-colors duration-300"
+                className="w-full h-10 md:h-12 max-w-50 md:max-w-70 text-white gap-2 px-5 hover:bg-white hover:text-black transition-colors duration-300"
                 onClick={handlePage}
               >
                 <FaDiscord className="size-4 md:size-5" />
