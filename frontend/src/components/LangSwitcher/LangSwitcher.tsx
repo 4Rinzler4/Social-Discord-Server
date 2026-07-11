@@ -7,19 +7,22 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import i18n from "@/plugins/i18n";
-import { useState } from "react";
+import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
 const LangSwitcher = () => {
-  const { t } = useTranslation();
-
-  const [language, setLanguage] = useState(i18n.language);
+  const { t, i18n } = useTranslation();
+  const language = i18n.language;
 
   const handleChangeLang = (lang: string) => {
-    setLanguage(lang);
     i18n.changeLanguage(lang);
+    localStorage.setItem("lang", lang);
   };
+
+  useEffect(() => {
+    const savedLng = localStorage.getItem("lang") ?? "en";
+    i18n.changeLanguage(savedLng);
+  }, [i18n]);
 
   return (
     <Select value={language} onValueChange={handleChangeLang}>

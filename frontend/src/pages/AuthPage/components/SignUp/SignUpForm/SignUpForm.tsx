@@ -10,10 +10,16 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Card, CardTitle } from "@/components/ui/card";
+import { Card, CardHeader } from "@/components/ui/card";
+import { useState } from "react";
+import { Eye, EyeOff } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 const SignUpForm = () => {
-  //   const [signUpUser, { data, isSuccess, isError }] = useSignUpMutation();
+  // const [signUpUser, { data, isSuccess, isError }] = useSignUpMutation();
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const { t } = useTranslation();
 
   const {
     register,
@@ -42,15 +48,15 @@ const SignUpForm = () => {
 
   return (
     <>
-      <Card className="w-ful lg:max-w-[380px] bg-white/80 border-black border-3 rounded-lg p-8 gap-0">
-        <CardTitle className="text-center font-bold text-2xl ">
-          Sign Up{" "}
-        </CardTitle>
-        <form className="" onSubmit={handleSubmit(onSubmit)}>
+      <Card className="w-full  py-4 ring-0 border-bottom shadow-none rounded-none p-0 gap-0">
+        <CardHeader className="text-center font-bold text-2xl pt-7">
+          {t("form.signup")}
+        </CardHeader>
+        <form className="px-5" onSubmit={handleSubmit(onSubmit)}>
           <FieldGroup className="gap-1">
             <Field className="gap-1">
               <FieldLabel className="pt-2" htmlFor="nickname">
-                Nickname:
+                {t("form.labels.nickname")}
               </FieldLabel>
               <Input
                 {...register("nickname")}
@@ -65,7 +71,7 @@ const SignUpForm = () => {
           <FieldGroup className="gap-1">
             <Field className="gap-1">
               <FieldLabel className="pt-2" htmlFor="fullname">
-                Fullname:
+                {t("form.labels.fullname")}
               </FieldLabel>
               <Input
                 {...register("fullname")}
@@ -80,7 +86,7 @@ const SignUpForm = () => {
           <FieldGroup className="gap-1">
             <Field className="gap-1">
               <FieldLabel className="pt-2" htmlFor="email">
-                Email:
+                {t("form.labels.email")}
               </FieldLabel>
               <Input
                 {...register("email")}
@@ -95,43 +101,68 @@ const SignUpForm = () => {
           <FieldGroup className="gap-1">
             <Field className="gap-1">
               <FieldLabel className="pt-2" htmlFor="password">
-                Password:
+                {t("form.labels.password")}
               </FieldLabel>
-              <Input
-                {...register("password")}
-                id="password"
-                type="password"
-                placeholder="Password"
-                className="text-lg"
-                aria-invalid={!!errors.nickname}
-              />
+              <div className="relative">
+                <Input
+                  {...register("password")}
+                  id="password"
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Password"
+                  className="pr-10 text-lg"
+                  aria-invalid={!!errors.password}
+                />
+
+                <button
+                  type="button"
+                  className="absolute right-3 top-1/2 -translate-y-1/2"
+                  onClick={() => setShowPassword((prev) => !prev)}
+                  data-cursor="hover"
+                >
+                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                </button>
+              </div>
             </Field>
             {errors.password && <FieldError errors={[errors.password]} />}
           </FieldGroup>
           <FieldGroup className="gap-1">
             <Field className="gap-1">
               <FieldLabel className="pt-2" htmlFor="confirmPassword">
-                Confirm Password:
+                {t("form.labels.confirmPassword")}
               </FieldLabel>
-              <Input
-                {...register("confirmPassword")}
-                id="confirmPassword"
-                type="password"
-                placeholder="Confirm Password"
-                className="text-lg"
-                aria-invalid={!!errors.confirmPassword}
-              />
+              <div className="relative">
+                <Input
+                  {...register("confirmPassword")}
+                  id="confirmPassword"
+                  type={showConfirmPassword ? "text" : "password"}
+                  placeholder="Confirm Password"
+                  className="text-lg"
+                  aria-invalid={!!errors.confirmPassword}
+                />
+                <button
+                  type="button"
+                  className="absolute right-3 top-1/2 -translate-y-1/2"
+                  onClick={() => setShowConfirmPassword((prev) => !prev)}
+                  data-cursor="hover"
+                >
+                  {showConfirmPassword ? (
+                    <EyeOff size={18} />
+                  ) : (
+                    <Eye size={18} />
+                  )}
+                </button>
+              </div>
             </Field>
             {errors.confirmPassword && (
               <FieldError errors={[errors.confirmPassword]} />
             )}
           </FieldGroup>
-          <div className="py-4 w-full flex justify-end">
+          <div className="py-3 w-full flex justify-evenly">
             <Button data-cursor="hover" type="reset" onClick={handleResetForm}>
-              Reset
+              {t("form.reset")}
             </Button>
             <Button data-cursor="hover" type="submit">
-              Submit
+              {t("form.submit")}
             </Button>
           </div>
         </form>

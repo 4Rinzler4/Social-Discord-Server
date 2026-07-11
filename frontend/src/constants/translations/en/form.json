@@ -1,0 +1,15 @@
+{
+  "signup": "Sign Up",
+  "login": "Log In",
+  "reset": "Reset",
+  "submit": "Submit",
+  "haveAccount": "Already have an account?",
+  "!haveAccount": "Don't have an account?",
+  "labels": {
+    "nickname": "Nickname:",
+    "fullname": "Full name:",
+    "email": "Email:",
+    "password": "Password:",
+    "confirmPassword": "Confirm Password:"
+  }
+}

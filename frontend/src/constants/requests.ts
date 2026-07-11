@@ -4,5 +4,10 @@ export const URLs = {
     signUp: "",
     login: "",
     logout: "",
+    forgetPassword: "",
+    resetPassword: "",
+  },
+  user: {
+    get: "/user",
   },
 };

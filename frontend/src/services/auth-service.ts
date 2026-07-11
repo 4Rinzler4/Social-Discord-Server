@@ -17,6 +17,17 @@ export const AuthService = {
   refresh: (): Promise<AxiosResponse> => {
     return axiosClient.get(URLs.auth.refresh, { withCredentials: true });
   },
+  forgetPassword: (email: string, lang: string): Promise<AxiosResponse> => {
+    return axiosClient.post(URLs.auth.forgetPassword, { email, lang });
+  },
+  resetPassword: (
+    resetToken: string,
+    newPassword: string,
+  ): Promise<AxiosResponse> => {
+    return axiosClient.patch(`${URLs.auth.resetPassword}/${resetToken}`, {
+      password: newPassword,
+    });
+  },
 };
 
 export const authService = appApi.injectEndpoints({
@@ -55,4 +66,5 @@ export const authService = appApi.injectEndpoints({
   }),
 });
 
-export const { useSignUpMutation, useLoginMutation } = authService;
+export const { useSignUpMutation, useLoginMutation, useLogoutMutation } =
+  authService;
