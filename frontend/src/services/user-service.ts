@@ -1,9 +1,23 @@
 import { URLs } from "@/constants/requests";
-import { axiosClient } from "@/plugins/axiosClient";
-import type { AxiosResponse } from "axios";
+import { appApi } from "@/redux/apiSlice";
+import { ApiMethod } from "@/types/enums/common-enums";
+import type { UserResponse } from "@/types/response-types";
 
-export const userService = {
-  getUserById: async ({ userId }): Promise<AxiosResponse<UserResponse>> => {
-    return await axiosClient.get<UserResponse>(`${URLs.user.get}/${userId}`);
-  },
-};
+const { GET } = ApiMethod;
+
+export const userService = appApi.injectEndpoints({
+  endpoints: (build) => ({
+    getAllUsers: build.query<UserResponse[], void>({
+      query: () => ({ url: URLs.user.get, method: GET }),
+    }),
+
+    getUserById: build.query<UserResponse, string>({
+      query: (userId) => ({
+        url: `${URLs.user.get}/${userId}`,
+        method: GET,
+      }),
+    }),
+  }),
+});
+
+export const { useGetAllUsersQuery, useGetUserByIdQuery } = userService;

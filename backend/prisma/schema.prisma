@@ -1,0 +1,71 @@
+generator client {
+  provider = "prisma-client"
+  output = "../src/generated/prisma"
+  moduleFormat = "cjs"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id String @id @default(cuid())
+  avatarUrl String?
+  nickname String @unique
+  fullname String
+  email String @unique
+  password String
+  status String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  followers Follow[] @relation("Follower")
+  followings Follow[] @relation("Following")
+
+  posts Post[]
+  comments Comment[]
+  likes Like[]
+}
+
+model Post {
+  id String @id @default(cuid())
+  imageUrl String
+  description String?
+  ownerId String 
+  owner User @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  likes Like[]
+  comments Comment[]
+}
+
+model Like {
+  userId String
+  postId String
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  @@id([userId, postId])
+}
+
+model Comment {
+  id String @id @default(cuid())
+  text String
+  userId String
+  postId String
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+  parentId  String?
+  parent Comment? @relation("CommentReplies", fields: [parentId], references: [id])
+  replies Comment[] @relation("CommentReplies")
+  createdAt DateTime @default(now())
+}
+
+model Follow {
+  followerId String
+  followingId String
+  follower User @relation("Follower", fields: [followerId], references: [id], onDelete: Cascade)
+  following User @relation("Following", fields: [followingId], references: [id], onDelete: Cascade)
+
+  @@id([followerId, followingId])
+}

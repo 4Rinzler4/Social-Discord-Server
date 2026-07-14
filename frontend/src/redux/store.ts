@@ -1,11 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
-import appMainReducer from "@/redux/reducer";
+import appUserReducer from "@/redux/reducer";
 import { setupListeners } from "@reduxjs/toolkit/query";
 import { appApi } from "./apiSlice";
 
 export const store = configureStore({
   reducer: {
-    appMain: appMainReducer,
+    appUser: appUserReducer,
     [appApi.reducerPath]: appApi.reducer,
   },
 });
