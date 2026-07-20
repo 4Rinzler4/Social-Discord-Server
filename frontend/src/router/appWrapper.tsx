@@ -1,28 +1,57 @@
 import Loader from "@/components/Loader/Loader";
-import { useAppSelector } from "@/hooks/use-redux";
+import { useAppDispatch, useAppSelector } from "@/hooks/use-redux";
 import GuestLayout from "@/layouts/GuestLayout/GuestLayout";
-import AboutPage from "@/pages/AboutPage/AboutPage";
-import AuthPage from "@/pages/AuthPage/AuthPage";
-import GamesPage from "@/pages/GamesPage/GamesPage";
-import { Suspense, lazy } from "react";
+import ProtectedLayout from "@/layouts/ProtectedLayout/ProtectedLayout";
+import UserDirect from "@/pages/UserDirect/UserDirect";
+import UserHomePage from "@/pages/UserHomePage/UserHomePage";
+import { checkAuth } from "@/redux/reducer";
+import { Suspense, lazy, useLayoutEffect, useRef } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-const GuestHomePage = lazy(() => import("@/pages/GuestHomePage/GuestHomePage"));
+
+const HomePage = lazy(() => import("@/pages/HomePage/HomePage"));
+const AboutPage = lazy(() => import("@/pages/AboutPage/AboutPage"));
+const GamesPage = lazy(() => import("@/pages/GamesPage/GamesPage"));
+const AuthPage = lazy(() => import("@/pages/AuthPage/AuthPage"));
+
+const UserProfilePage = lazy(
+  () => import("@/pages/UserProfilePage/UserProfilePage"),
+);
 
 const AppWrapper = () => {
-  const { userId } = useAppSelector((state) => state.appMain);
+  const checkAuthRef = useRef(false);
+  const dispatch = useAppDispatch();
+  const { authChecked } = useAppSelector((state) => state.appUser);
 
-  console.log(`UserId: ${userId}`);
+  useLayoutEffect(() => {
+    if (!checkAuthRef.current) {
+      checkAuthRef.current = true;
+      dispatch(checkAuth());
+    }
+  }, [dispatch]);
+
+  if (!authChecked) {
+    return <Loader pageLoading />;
+  }
 
   return (
     <>
       <BrowserRouter>
         <Suspense fallback={<Loader pageLoading />}>
           <Routes>
+            <Route path="/home" element={<HomePage />} />
+            {/* Guest Routes */}
             <Route element={<GuestLayout />}>
-              <Route path="/" element={<GuestHomePage />} />
               <Route path="/about" element={<AboutPage />} />
               <Route path="/games" element={<GamesPage />} />
               <Route path="/auth" element={<AuthPage />} />
+            </Route>
+
+            {/* Protected Routes */}
+            <Route element={<ProtectedLayout />}>
+              <Route index element={<UserHomePage />} />
+              <Route path="/profile" element={<UserProfilePage />} />
+              <Route path="/direct" element={<UserDirect />} />
+              <Route path="/create-post" element={<></>} />
             </Route>
           </Routes>
         </Suspense>

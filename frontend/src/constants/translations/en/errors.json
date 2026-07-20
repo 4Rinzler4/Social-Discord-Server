@@ -1,0 +1,10 @@
+{
+  "login": {
+    "errorTitle": "Sign in failed",
+    "errorDescription": "Incorrect email or password. Please try again."
+  },
+  "signUp": {
+    "errorTitle": "Sign up failed",
+    "errorDescription": "Something went wrong. Please try again later."
+  }
+}

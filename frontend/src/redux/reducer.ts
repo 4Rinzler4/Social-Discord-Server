@@ -1,30 +1,21 @@
 import { AuthService } from "@/services/auth-service";
-import { parseJwt } from "@/utils/helper-functions";
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-
-type User = {
-  id: string;
-  userName: string;
-  fullName: string;
-  avatar: string;
-  status: string;
-};
+import { clearAccessToken, setAccessToken } from "@/services/token-service";
+import {
+  createAsyncThunk,
+  createSlice,
+  type PayloadAction,
+} from "@reduxjs/toolkit";
 
 type UserState = {
-  user: User | null;
   authChecked: boolean;
+  isAuthenticated: boolean;
+  pageLoad: boolean;
 };
 
 const initialState: UserState = {
-  user: null,
   authChecked: false,
-};
-
-type JwtPayload = {
-  userId: string;
-  userName: string;
-  userFullName: string;
-  userAvatar: string;
+  isAuthenticated: false,
+  pageLoad: false,
 };
 
 export const checkAuth = createAsyncThunk(
@@ -32,59 +23,42 @@ export const checkAuth = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const { data } = await AuthService.refresh();
-      return data.accessToken;
-    } catch (e) {
-      return rejectWithValue(e);
+      setAccessToken(data.accessToken);
+      return true;
+    } catch (error) {
+      clearAccessToken();
+      return rejectWithValue(`Unknown error: ${error}`);
     }
   },
 );
-
-const mapJwtToUser = (token: string): User => {
-  const data = parseJwt<JwtPayload>(token);
-  return {
-    id: data.userId,
-    userName: data.userName,
-    fullName: data.userFullName,
-    avatar: data.userAvatar,
-    status: "",
-  };
-};
 
 const userSlice = createSlice({
   name: "appUser",
   initialState,
   reducers: {
-    setUser(state, action) {
-      try {
-        state.user = mapJwtToUser(action.payload);
-        state.authChecked = true;
-      } catch {
-        Object.assign(state, initialState);
-      }
+    authSuccess(state) {
+      state.isAuthenticated = true;
     },
-    logout: () => initialState,
+    setPageLoading(state, action: PayloadAction<boolean>) {
+      state.pageLoad = action.payload;
+    },
+    logout(state) {
+      clearAccessToken();
+      state.isAuthenticated = false;
+    },
   },
   extraReducers: (builder) => {
     builder
-      .addCase(checkAuth.fulfilled, (state, action) => {
-        const data = parseJwt<JwtPayload>(action.payload);
-
-        state.user = {
-          id: data.userId,
-          userName: data.userName,
-          fullName: data.userFullName,
-          avatar: data.userAvatar,
-          status: "",
-        };
-
+      .addCase(checkAuth.fulfilled, (state) => {
         state.authChecked = true;
+        state.isAuthenticated = true;
       })
       .addCase(checkAuth.rejected, (state) => {
         state.authChecked = true;
-        state.user = null;
+        state.isAuthenticated = false;
       });
   },
 });
 
-export const { setUser, logout } = userSlice.actions;
+export const { authSuccess, logout, setPageLoading } = userSlice.actions;
 export default userSlice.reducer;

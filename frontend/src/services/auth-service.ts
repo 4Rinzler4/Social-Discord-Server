@@ -1,7 +1,7 @@
 import { URLs } from "@/constants/requests";
 import { axiosClient } from "@/plugins/axiosClient";
 import { appApi } from "@/redux/apiSlice";
-import { logout, setUser } from "@/redux/reducer";
+import { authSuccess, logout } from "@/redux/reducer";
 import type { AxiosResponse } from "axios";
 import { ApiMethod } from "@/types/enums/common-enums";
 import type {
@@ -10,12 +10,14 @@ import type {
   SignUpParams,
   SignUpResponse,
 } from "@/interfaces/user-interfaces";
+import { userService } from "./user-service";
+import { clearAccessToken, setAccessToken } from "./token-service";
 
 const { POST } = ApiMethod;
 
 export const AuthService = {
   refresh: (): Promise<AxiosResponse> => {
-    return axiosClient.get(URLs.auth.refresh, { withCredentials: true });
+    return axiosClient.post(URLs.auth.refresh);
   },
   forgetPassword: (email: string, lang: string): Promise<AxiosResponse> => {
     return axiosClient.post(URLs.auth.forgetPassword, { email, lang });
@@ -37,19 +39,22 @@ export const authService = appApi.injectEndpoints({
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
         try {
           const { data } = await queryFulfilled;
-          dispatch(setUser(data.userId));
+          setAccessToken(data.accessToken);
+          dispatch(userService.util.invalidateTags(["Me"]));
+          dispatch(authSuccess());
         } catch (error) {
           console.log("SignUp failed", error);
         }
       },
     }),
-
     login: build.mutation<LogInResponse, LogInParams>({
       query: (body) => ({ url: URLs.auth.login, method: POST, body }),
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
         try {
           const { data } = await queryFulfilled;
-          dispatch(setUser(data.userId));
+          setAccessToken(data.accessToken);
+          dispatch(userService.util.invalidateTags(["Me"]));
+          dispatch(authSuccess());
         } catch {
           dispatch(logout());
         }
@@ -61,6 +66,7 @@ export const authService = appApi.injectEndpoints({
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
         await queryFulfilled;
         dispatch(logout());
+        clearAccessToken();
       },
     }),
   }),

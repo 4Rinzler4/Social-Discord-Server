@@ -1,5 +1,5 @@
 export interface SignUpResponse {
-  userId: string;
+  accessToken: string;
 }
 export interface SignUpParams {
   nickname: string;
@@ -9,10 +9,9 @@ export interface SignUpParams {
 }
 
 export interface LogInResponse {
-  userId: string;
+  accessToken: string;
 }
 export interface LogInParams {
-  nickname: string;
   email: string;
   password: string;
 }

@@ -1,7 +1,7 @@
 import { type SignUpFormData, SignUpFormSchema } from "@/schemas/signUpSchema";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-// import { useSignUpMutation } from "@/services/auth-service";
+import { useSignUpMutation } from "@/services/auth-service";
 import {
   Field,
   FieldError,
@@ -11,20 +11,24 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader } from "@/components/ui/card";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
+import AlertModal from "@/components/AlertModal/AlertModal";
 
 const SignUpForm = () => {
-  // const [signUpUser, { data, isSuccess, isError }] = useSignUpMutation();
+  const [signUpUser, { data, isSuccess }] = useSignUpMutation();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isValid },
     reset,
     clearErrors,
   } = useForm<SignUpFormData>({
@@ -39,16 +43,35 @@ const SignUpForm = () => {
 
   const onSubmit = async (data: SignUpFormData) => {
     try {
-      console.log(data);
+      await signUpUser(data).unwrap();
       reset();
     } catch (error) {
       console.log("Sign Up failed", error);
+      setShowAlert(true);
     }
+  };
+
+  useEffect(() => {
+    if (isSuccess && data.accessToken) {
+      navigate("/", { replace: true });
+    }
+  }, [isSuccess, data, navigate]);
+
+  const handleCloseAlert = () => {
+    if (!showAlert) return;
+    setShowAlert(false);
   };
 
   return (
     <>
-      <Card className="w-full  py-4 ring-0 border-bottom shadow-none rounded-none p-0 gap-0">
+      {showAlert ? (
+        <AlertModal
+          title={t("errors.signUp.errorTitle")}
+          description={t("errors.signUp.errorDescription")}
+          onClose={handleCloseAlert}
+        />
+      ) : null}
+      <Card className="w-full py-4 ring-0 border-bottom shadow-none rounded-none p-0 gap-0">
         <CardHeader className="text-center font-bold text-2xl pt-7">
           {t("form.signup")}
         </CardHeader>
@@ -157,11 +180,22 @@ const SignUpForm = () => {
               <FieldError errors={[errors.confirmPassword]} />
             )}
           </FieldGroup>
-          <div className="py-3 w-full flex justify-evenly">
-            <Button data-cursor="hover" type="reset" onClick={handleResetForm}>
+          <div className="h-25 py-3 gap-1 flex flex-col">
+            <Button
+              className="w-full h-10 font-bold"
+              data-cursor="hover"
+              variant="secondary"
+              type="reset"
+              onClick={handleResetForm}
+            >
               {t("form.reset")}
             </Button>
-            <Button data-cursor="hover" type="submit">
+            <Button
+              disabled={!isValid}
+              className="w-full h-10 font-bold hover:bg-white/200 hover:text-black hover:border-2 hover: border-black transition-colors duration-300"
+              data-cursor="hover"
+              type="submit"
+            >
               {t("form.submit")}
             </Button>
           </div>

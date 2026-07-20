@@ -17,7 +17,16 @@ export const userService = appApi.injectEndpoints({
         method: GET,
       }),
     }),
+
+    getMe: build.query<UserResponse, void>({
+      query: () => ({
+        url: URLs.user.myProfile,
+        method: GET,
+      }),
+      providesTags: ["Me"],
+    }),
   }),
 });
 
-export const { useGetAllUsersQuery, useGetUserByIdQuery } = userService;
+export const { useGetAllUsersQuery, useGetUserByIdQuery, useGetMeQuery } =
+  userService;

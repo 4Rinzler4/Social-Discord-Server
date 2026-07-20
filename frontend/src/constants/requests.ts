@@ -1,13 +1,14 @@
 export const URLs = {
   auth: {
-    refresh: "",
-    signUp: "",
-    login: "",
-    logout: "",
+    refresh: "/auth/refresh",
+    signUp: "/auth/signup",
+    login: "/auth/login",
+    logout: "/auth/logout",
     forgetPassword: "",
     resetPassword: "",
   },
   user: {
     get: "/user",
+    myProfile: "/auth/me",
   },
 };

@@ -1,4 +1,4 @@
-import MobileHeroImage from "@/assets/images/mobile-hero.png";
+import MobileHeroImage from "@/assets/images/mobile-hero.avif";
 import type { ReactNode } from "react";
 
 interface GuestBackgroundProps {

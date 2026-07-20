@@ -1,5 +1,5 @@
-import HeroImage from "@/assets/images/hero.png";
-import MobileHeroImage from "@/assets/images/mobile-hero.png";
+import HeroImage from "@/assets/images/hero.avif";
+import MobileHeroImage from "@/assets/images/mobile-hero.avif";
 import { TypographyH1, TypographyP } from "@/components/ui/typography";
 import { Button } from "@/components/ui/button";
 import { HiArrowUpRight } from "react-icons/hi2";
