@@ -1,16 +1,9 @@
-import Loader from "@/components/Loader/Loader";
-import { useGetMeQuery } from "@/services/user-service";
+import UserHeader from "@/pages/UserProfilePage/components/UserHeader/UserHeader";
 
 const UserProfilePage = () => {
-  const { data, isLoading } = useGetMeQuery();
-
-  if (isLoading) {
-    return <Loader pageLoading />;
-  }
   return (
     <>
-      <h1 className="text-white">{data?.nickname}</h1>
-      <p className="text-white">{data?.fullname}</p>
+      <UserHeader />
     </>
   );
 };

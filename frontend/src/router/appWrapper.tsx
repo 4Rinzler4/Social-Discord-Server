@@ -1,9 +1,8 @@
 import Loader from "@/components/Loader/Loader";
 import { useAppDispatch, useAppSelector } from "@/hooks/use-redux";
 import GuestLayout from "@/layouts/GuestLayout/GuestLayout";
+import ProfileLayout from "@/layouts/ProfileLayout/ProfileLayout";
 import ProtectedLayout from "@/layouts/ProtectedLayout/ProtectedLayout";
-import UserDirect from "@/pages/UserDirect/UserDirect";
-import UserHomePage from "@/pages/UserHomePage/UserHomePage";
 import { checkAuth } from "@/redux/reducer";
 import { Suspense, lazy, useLayoutEffect, useRef } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -13,9 +12,14 @@ const AboutPage = lazy(() => import("@/pages/AboutPage/AboutPage"));
 const GamesPage = lazy(() => import("@/pages/GamesPage/GamesPage"));
 const AuthPage = lazy(() => import("@/pages/AuthPage/AuthPage"));
 
+const UserHomePage = lazy(() => import("@/pages/UserHomePage/UserHomePage"));
 const UserProfilePage = lazy(
   () => import("@/pages/UserProfilePage/UserProfilePage"),
 );
+const ProfileSettingsPage = lazy(
+  () => import("@/pages/ProfileSettingsPage/ProfileSettingsPage"),
+);
+const UserDirect = lazy(() => import("@/pages/UserDirect/UserDirect"));
 
 const AppWrapper = () => {
   const checkAuthRef = useRef(false);
@@ -49,9 +53,12 @@ const AppWrapper = () => {
             {/* Protected Routes */}
             <Route element={<ProtectedLayout />}>
               <Route index element={<UserHomePage />} />
-              <Route path="/profile" element={<UserProfilePage />} />
-              <Route path="/direct" element={<UserDirect />} />
-              <Route path="/create-post" element={<></>} />
+              <Route path="profile" element={<ProfileLayout />}>
+                <Route index element={<UserProfilePage />} />
+                <Route path="settings" element={<ProfileSettingsPage />} />
+              </Route>
+              <Route path="direct" element={<UserDirect />} />
+              <Route path="create-post" element={<></>} />
             </Route>
           </Routes>
         </Suspense>

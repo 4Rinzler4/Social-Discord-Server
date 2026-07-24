@@ -10,7 +10,7 @@ datasource db {
 
 model User {
   id String @id @default(cuid())
-  avatarUrl String?
+  avatarUrl  String @default("default-avatar.png")
   nickname String @unique
   fullname String
   email String @unique
@@ -25,6 +25,9 @@ model User {
   posts Post[]
   comments Comment[]
   likes Like[]
+
+  chatMembers ChatMember[]
+  messages Message[] @relation("MessageSender")
 }
 
 model Post {
@@ -68,4 +71,29 @@ model Follow {
   following User @relation("Following", fields: [followingId], references: [id], onDelete: Cascade)
 
   @@id([followerId, followingId])
+}
+
+model Chat {
+  id String @id @default(cuid())
+  
+  members ChatMember[]
+  messages Message[]
+}
+
+model ChatMember {
+  chatId String
+  userId String
+  chat Chat @relation(fields: [chatId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([chatId, userId])
+}
+
+model Message {
+  id String @id @default(cuid())
+  text String
+  chatId String
+  senderId String
+  chat Chat @relation(fields: [chatId], references: [id], onDelete: Cascade)
+  sender User @relation("MessageSender", fields: [senderId], references: [id], onDelete: Cascade)
 }

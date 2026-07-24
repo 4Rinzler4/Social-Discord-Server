@@ -3,8 +3,19 @@ export type UserResponse = {
   nickname: string;
   fullname: string;
   avatarUrl: string;
+  posts: PostResponse[];
+  followers: FollowersResponse[];
+  followings: FollowingsResponse[];
 };
 
 export type PostResponse = {
+  userId: string;
+};
+
+export type FollowersResponse = {
+  userId: string;
+};
+
+export type FollowingsResponse = {
   userId: string;
 };

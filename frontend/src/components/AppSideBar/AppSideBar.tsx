@@ -11,7 +11,7 @@ import {
   SidebarSeparator,
   useSidebar,
 } from "@/components/ui/sidebar";
-import { Home, BadgePlus, User, Send, LogOut } from "lucide-react";
+import { Home, BadgePlus, User, Send, LogOut, Settings } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import sideBarImg from "@/assets/images/barImg.avif";
@@ -26,7 +26,7 @@ const AppSideBar = () => {
   const handleLogout = async () => {
     try {
       await logoutUser().unwrap();
-      navigate("/", { replace: true });
+      navigate("/home", { replace: true });
     } catch (error) {
       console.error(error);
     }
@@ -35,6 +35,7 @@ const AppSideBar = () => {
     { to: "/", icon: Home, label: "Home" },
     { to: "/direct", icon: Send, label: "Direct" },
     { to: "/create-post", icon: BadgePlus, label: "Create" },
+    { to: "/profile/settings", icon: Settings, label: "Settings" },
   ];
   return (
     <Sidebar
@@ -61,7 +62,7 @@ const AppSideBar = () => {
                 <SidebarMenuItem key={to}>
                   <SidebarMenuButton
                     isActive={location.pathname === to}
-                    className="!bg-black !rounded-2xl hover:!bg-white"
+                    className="!bg-black !rounded-2xl hover:!bg-white transition-colors duration-150"
                   >
                     <Link
                       onClick={() => setOpenMobile(false)}
