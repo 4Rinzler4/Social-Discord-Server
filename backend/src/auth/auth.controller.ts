@@ -58,7 +58,7 @@ export class AuthController {
   @Authorization()
   @Get('me')
   @HttpCode(HttpStatus.OK)
-  async me(@Authorized('id') id: string) {
-    return this.userService.getUserById(id);
+  async me(@Authorized('id') userId: string) {
+    return this.userService.getUserById(userId);
   }
 }

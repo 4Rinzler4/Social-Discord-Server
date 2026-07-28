@@ -1,9 +1,15 @@
 import { Button } from "@/components/ui/button";
-import { useGetMeQuery } from "@/services/user-service";
+import { useGetMeQuery, useGetUserByIdQuery } from "@/services/user-service";
 import { Loader } from "lucide-react";
 
-const UserHeader = () => {
-  const { data: user, isLoading } = useGetMeQuery();
+type UserHeaderProp = {
+  userId: string;
+};
+
+const UserHeader = ({ userId }: UserHeaderProp) => {
+  const { data: me } = useGetMeQuery();
+  const { data: user, isLoading } = useGetUserByIdQuery(userId);
+  const isMyProfile = me?.id === user?.id;
 
   if (isLoading || !user) {
     return <Loader />;
@@ -31,8 +37,12 @@ const UserHeader = () => {
               <span>Followings {followings.length}</span>
             </div>
             <div>
-              <Button data-cursor="hover">Edit profile</Button>
-              <Button>Add post</Button>
+              {isMyProfile && (
+                <>
+                  <Button data-cursor="hover">Edit profile</Button>
+                  <Button>Add post</Button>
+                </>
+              )}
             </div>
           </div>
         </div>

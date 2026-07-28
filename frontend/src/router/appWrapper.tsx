@@ -54,8 +54,9 @@ const AppWrapper = () => {
             <Route element={<ProtectedLayout />}>
               <Route index element={<UserHomePage />} />
               <Route path="profile" element={<ProfileLayout />}>
-                <Route index element={<UserProfilePage />} />
                 <Route path="settings" element={<ProfileSettingsPage />} />
+                <Route path=":userId" element={<UserProfilePage />} />
+                <Route index element={<UserProfilePage />} />
               </Route>
               <Route path="direct" element={<UserDirect />} />
               <Route path="create-post" element={<></>} />

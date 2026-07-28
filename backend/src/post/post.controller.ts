@@ -1,27 +1,47 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Post,
-  Req,
+  UploadedFile,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { PostService } from './post.service';
 import { AuthGuard } from '@nestjs/passport';
-import type { Request } from 'express';
 import { CreatePostDto } from './dto/post.dto';
+import { SupabaseService } from '../supabase/supabase.service';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { CurrentUser } from '../common/decorators/current-user.decorator';
+import type { AuthUser } from '../types/auth-user.types';
 
 @Controller('post')
 export class PostController {
-  constructor(private readonly postService: PostService) {}
+  constructor(
+    private readonly postService: PostService,
+    private readonly supabaseService: SupabaseService,
+  ) {}
 
-  @UseGuards(AuthGuard('jwt'))
   @Post('create')
-  createPost(@Req() req: Request, @Body() dto: CreatePostDto) {
-    const user = req.user as { id: string; email: string };
+  @UseGuards(AuthGuard('jwt'))
+  @UseInterceptors(FileInterceptor('image'))
+  async createPost(
+    @UploadedFile() file: Express.Multer.File,
+    @CurrentUser() user: AuthUser,
+    @Body() dto: CreatePostDto,
+  ) {
     const userId = user.id;
-    return this.postService.createPost(userId, dto);
+    const imageUrl = await this.supabaseService.upload(file);
+    return this.postService.createPost(userId, imageUrl, dto);
+  }
+
+  @Delete(':id')
+  @UseGuards(AuthGuard('jwt'))
+  async deletePost(@Param('id') postId: string, @CurrentUser() user: AuthUser) {
+    const userId = user.id;
+    return this.postService.deletePost(userId, postId);
   }
 
   @Get('user/:userid')

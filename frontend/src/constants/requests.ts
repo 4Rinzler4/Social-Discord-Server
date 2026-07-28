@@ -11,4 +11,10 @@ export const URLs = {
     get: "/user",
     myProfile: "/auth/me",
   },
+  post: {
+    get: "/post",
+    create: "/post/create",
+    delete: "/post",
+    getByUserId: "/post/user",
+  },
 };

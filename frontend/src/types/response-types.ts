@@ -1,5 +1,5 @@
 export type UserResponse = {
-  userId: string;
+  id: string;
   nickname: string;
   fullname: string;
   avatarUrl: string;
@@ -9,7 +9,10 @@ export type UserResponse = {
 };
 
 export type PostResponse = {
-  userId: string;
+  id: string;
+  imageUrl: string;
+  description?: string;
+  ownerId: string;
 };
 
 export type FollowersResponse = {
