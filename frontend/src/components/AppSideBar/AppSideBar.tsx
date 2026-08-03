@@ -16,12 +16,14 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import sideBarImg from "@/assets/images/barImg.avif";
 import { useLogoutMutation } from "@/services/auth-service";
+import { useTranslation } from "react-i18next";
 
 const AppSideBar = () => {
   const location = useLocation();
   const [logoutUser] = useLogoutMutation();
   const { setOpenMobile } = useSidebar();
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const handleLogout = async () => {
     try {
@@ -94,7 +96,7 @@ const AppSideBar = () => {
                 >
                   <User className="!w-5 !h-5 shrink-0" />
                   <span className="group-data-[state=collapsed]:hidden">
-                    Profile
+                    {t("user.profile")}
                   </span>
                 </Link>
               </SidebarMenuButton>

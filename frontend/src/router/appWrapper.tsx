@@ -3,6 +3,7 @@ import { useAppDispatch, useAppSelector } from "@/hooks/use-redux";
 import GuestLayout from "@/layouts/GuestLayout/GuestLayout";
 import ProfileLayout from "@/layouts/ProfileLayout/ProfileLayout";
 import ProtectedLayout from "@/layouts/ProtectedLayout/ProtectedLayout";
+import CreatePostPage from "@/pages/CreatePostPage/CreatePostPage";
 import { checkAuth } from "@/redux/reducer";
 import { Suspense, lazy, useLayoutEffect, useRef } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -59,7 +60,7 @@ const AppWrapper = () => {
                 <Route index element={<UserProfilePage />} />
               </Route>
               <Route path="direct" element={<UserDirect />} />
-              <Route path="create-post" element={<></>} />
+              <Route path="create-post" element={<CreatePostPage />} />
             </Route>
           </Routes>
         </Suspense>

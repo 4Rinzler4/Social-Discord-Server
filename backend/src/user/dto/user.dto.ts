@@ -3,6 +3,6 @@ export class UserResponseDto {
   nickname!: string;
   fullname!: string;
   email!: string;
-  avatarUrl?: string | null;
+  avatarUrl!: string;
   status!: string;
 }

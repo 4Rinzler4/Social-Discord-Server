@@ -4,9 +4,10 @@ const ProfileHeader = () => {
   return (
     <>
       <img
-        className="h-20 object-cover border-b border-2-white"
+        className="h-full w-full object-cover blur brightness-140"
         src={ProfileHeaderImg}
-        alt="profileHeader"
+        alt="Profile hero"
+        draggable={false}
       />
     </>
   );

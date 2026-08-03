@@ -19,7 +19,7 @@ const ProtectedLayout = () => {
       <SidebarProvider>
         <AppSidebar />
         <SidebarInset>
-          <SidebarTrigger className="text-white" />
+          <SidebarTrigger className="text-white z-10" />
           <Outlet />
         </SidebarInset>
       </SidebarProvider>

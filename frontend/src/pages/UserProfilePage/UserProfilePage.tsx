@@ -19,8 +19,10 @@ const UserProfilePage = () => {
 
   return (
     <>
-      <UserHeader userId={profileId} />
-      <PostList userId={profileId} />
+      <div className="w-full absolute flex-col justify-center">
+        <UserHeader userId={profileId} />
+        <PostList userId={profileId} />
+      </div>
     </>
   );
 };
