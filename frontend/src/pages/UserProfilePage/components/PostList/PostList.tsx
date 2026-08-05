@@ -29,7 +29,7 @@ const PostList = ({ userId }: PostListProp) => {
 
   return (
     <>
-      <div className="text-white">
+      <div className="w-full py-5 px-10 md:px-15 lg:px-30">
         {posts.map((post) => (
           <PostItem imageUrl={post.imageUrl} />
         ))}

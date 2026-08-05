@@ -20,9 +20,9 @@ export const postsService = appApi.injectEndpoints({
     }),
 
     createPost: build.mutation<void, CreatePostParams>({
-      query: ({ media, description }) => {
+      query: ({ image, description }) => {
         const formData = new FormData();
-        formData.append("media", media);
+        formData.append("image", image);
         if (description) {
           formData.append("description", description);
         }

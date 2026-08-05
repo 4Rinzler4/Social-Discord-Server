@@ -1,4 +1,4 @@
 export type CreatePostParams = {
-  media: File;
+  image: File;
   description?: string;
 };

@@ -40,7 +40,10 @@ export class PostService {
   }
 
   async getAllPostsByUserId(userId: string) {
-    return this.prismaService.post.findMany({ where: { ownerId: userId } });
+    return this.prismaService.post.findMany({
+      where: { ownerId: userId },
+      orderBy: { createdAt: 'desc' },
+    });
   }
 
   async getPostById(id: string) {
