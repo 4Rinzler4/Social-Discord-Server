@@ -13,6 +13,11 @@ export type PostResponse = {
   imageUrl: string;
   description?: string;
   ownerId: string;
+  owner: {
+    id: string;
+    nickname: string;
+    avatarUrl: string;
+  };
 };
 
 export type FollowersResponse = {

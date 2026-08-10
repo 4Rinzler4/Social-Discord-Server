@@ -1,5 +1,5 @@
-import CreatePostInput from "./components/CreatePostInput/CreatePostInput";
-import CreatePostTitle from "./components/CreatePostTitle/CreatePostTitle";
+import CreatePostInput from "@/pages/CreatePostPage/components/CreatePostInput/CreatePostInput";
+import CreatePostTitle from "@/pages/CreatePostPage/components/CreatePostTitle/CreatePostTitle";
 
 const CreatePostPage = () => {
   return (

@@ -1,6 +1,8 @@
+import SuccessPostModal from "@/components/SuccessPostModal/SuccessPostModal";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { TypographyH4 } from "@/components/ui/typography";
+import { useModalContext } from "@/context/modal-context";
 import { useCreatePostMutation } from "@/services/post-service";
 import { Loader } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -10,8 +12,9 @@ const CreatePostInput = () => {
   const [preview, setPreview] = useState<string>("");
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [description, setDescription] = useState<string>("");
+  const { openModal, closeModal } = useModalContext();
 
-  const [createPost, { isLoading }] = useCreatePostMutation();
+  const [createPost, { isLoading, isSuccess }] = useCreatePostMutation();
 
   const handleDrop = (acceptedFiles: File[]) => {
     const file = acceptedFiles[0];
@@ -51,15 +54,20 @@ const CreatePostInput = () => {
     return () => URL.revokeObjectURL(objectUrl);
   }, [imageFile]);
 
-  if (isLoading) {
-    return <Loader />;
-  }
+  useEffect(() => {
+    if (isSuccess) {
+      openModal({
+        component: <SuccessPostModal />,
+      });
+    }
+  }, [isSuccess, openModal, closeModal]);
 
   return (
     <>
+      {isLoading && <Loader />}
       <div className="flex flex-col lg:flex-row w-full h-full px-10 bg justify-center items-center lg:justify-center gap-5">
         {preview ? (
-          <div className="sm:w-[500px] sm:h-[500px] rounded-[10px] overflow-hidden bg-zinc-900">
+          <div className="w-full h-auto max-w-[200px] sm:max-w-[350px] lg:max-w-[500px] overflow-hidden">
             <img
               src={preview}
               className="w-full h-full object-cover"

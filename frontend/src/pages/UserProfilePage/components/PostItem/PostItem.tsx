@@ -1,13 +1,15 @@
 type PostItemProp = {
   imageUrl: string;
+  onOpen: () => void;
 };
 
-const PostItem = ({ imageUrl }: PostItemProp) => {
+const PostItem = ({ imageUrl, onOpen }: PostItemProp) => {
   return (
     <>
       <div
+        onClick={onOpen}
         data-cursor="hover"
-        className="relative group w-full max-w-[120px] sm:max-w-[200px] lg:max-w-[300px]"
+        className="relative max-w-[300px] group aspect-[4x3]"
       >
         <img
           className="object-cover border-1 border-solid group-hover:brightness-50 transition-all"
