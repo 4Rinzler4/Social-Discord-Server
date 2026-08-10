@@ -1,29 +1,29 @@
-import { Button } from "@/components/ui/button";
-import { Card, CardHeader } from "@/components/ui/card";
+import { Button } from '@/components/ui/button'
+import { Card, CardHeader } from '@/components/ui/card'
 import {
   Field,
   FieldError,
   FieldGroup,
   FieldLabel,
-} from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
-import { LogInFormSchema, type LogInFormData } from "@/schemas/logInSchema";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Eye, EyeOff } from "lucide-react";
-import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import { useTranslation } from "react-i18next";
-import { useLoginMutation } from "@/services/auth-service";
-import { useNavigate } from "react-router-dom";
-import AlertModal from "@/components/AlertModal/AlertModal";
+} from '@/components/ui/field'
+import { Input } from '@/components/ui/input'
+import { LogInFormSchema, type LogInFormData } from '@/schemas/logInSchema'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { Eye, EyeOff } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
+import { useLoginMutation } from '@/services/auth-service'
+import { useNavigate } from 'react-router-dom'
+import AlertModal from '@/components/AlertModal/AlertModal'
 
 const LoginForm = () => {
-  const [loginUser, { data, isSuccess }] = useLoginMutation();
-  const [showPassword, setShowPassword] = useState(false);
-  const [showAlert, setShowAlert] = useState(false);
+  const [loginUser, { data, isSuccess }] = useLoginMutation()
+  const [showPassword, setShowPassword] = useState(false)
+  const [showAlert, setShowAlert] = useState(false)
 
-  const { t } = useTranslation();
-  const navigate = useNavigate();
+  const { t } = useTranslation()
+  const navigate = useNavigate()
 
   const {
     register,
@@ -32,74 +32,74 @@ const LoginForm = () => {
     formState: { errors, isValid },
   } = useForm<LogInFormData>({
     resolver: zodResolver(LogInFormSchema()),
-    mode: "onChange",
-  });
+    mode: 'onChange',
+  })
 
   const onSubmit = async (data: LogInFormData) => {
     try {
-      await loginUser(data).unwrap();
-      reset();
+      await loginUser(data).unwrap()
+      reset()
     } catch (error) {
-      console.log(`Login error: ${error}`);
-      setShowAlert(true);
+      console.log(`Login error: ${error}`)
+      setShowAlert(true)
     }
-  };
+  }
 
   const handleResetForm = () => {
-    reset();
-  };
+    reset()
+  }
 
   useEffect(() => {
     if (isSuccess && data.accessToken) {
-      navigate("/", { replace: true });
+      navigate('/', { replace: true })
     }
-  }, [isSuccess, data, navigate]);
+  }, [isSuccess, data, navigate])
 
   const handleCloseAlert = () => {
-    if (!showAlert) return;
-    setShowAlert(false);
-  };
+    if (!showAlert) return
+    setShowAlert(false)
+  }
 
   return (
     <>
       {showAlert ? (
         <AlertModal
-          title={t("errors.login.errorTitle")}
-          description={t("errors.login.errorDescription")}
+          title={t('errors.login.errorTitle')}
+          description={t('errors.login.errorDescription')}
           onClose={handleCloseAlert}
         />
       ) : null}
-      <Card className="w-full ring-0 border-bottom shadow-none rounded-none p-0 gap-0">
-        <CardHeader className="text-center font-bold text-2xl">
-          {t("form.login")}
+      <Card className='w-full ring-0 border-bottom shadow-none rounded-none p-0 gap-0'>
+        <CardHeader className='text-center font-bold text-2xl'>
+          {t('form.login')}
         </CardHeader>
-        <form className="px-5" onSubmit={handleSubmit(onSubmit)}>
-          <FieldGroup className="gap-1">
-            <Field className="gap-1">
-              <FieldLabel className="pt-2">{t("form.labels.email")}</FieldLabel>
+        <form className='px-5' onSubmit={handleSubmit(onSubmit)}>
+          <FieldGroup className='gap-1'>
+            <Field className='gap-1'>
+              <FieldLabel className='pt-2'>{t('form.labels.email')}</FieldLabel>
               <Input
-                {...register("email")}
-                placeholder="Example@mail.com"
+                {...register('email')}
+                placeholder='Example@mail.com'
                 aria-invalid={!!errors.email}
               />
             </Field>
             {errors.email && <FieldError errors={[errors.email]} />}
           </FieldGroup>
-          <FieldGroup className="gap-1">
-            <Field className="gap-1">
-              <FieldLabel className="pt-2">
-                {t("form.labels.password")}
+          <FieldGroup className='gap-1'>
+            <Field className='gap-1'>
+              <FieldLabel className='pt-2'>
+                {t('form.labels.password')}
               </FieldLabel>
-              <div className="relative">
+              <div className='relative'>
                 <Input
-                  {...register("password")}
-                  type={showPassword ? "text" : "password"}
-                  placeholder="Password"
+                  {...register('password')}
+                  type={showPassword ? 'text' : 'password'}
+                  placeholder='Password'
                   aria-invalid={!!errors.password}
                 />
                 <button
-                  className="absolute right-3 top-1/2 -translate-y-1/2"
-                  type="button"
+                  className='absolute right-3 top-1/2 -translate-y-1/2'
+                  type='button'
                   onClick={() => setShowPassword((prev) => !prev)}
                 >
                   {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
@@ -108,29 +108,29 @@ const LoginForm = () => {
             </Field>
             {errors.password && <FieldError errors={[errors.password]} />}
           </FieldGroup>
-          <div className="h-25 py-3 gap-1 flex flex-col">
+          <div className='h-25 py-3 gap-1 flex flex-col'>
             <Button
-              className="w-full h-10 font-bold"
-              data-cursor="hover"
-              variant="secondary"
-              type="reset"
+              className='w-full h-10 font-bold'
+              data-cursor='hover'
+              variant='secondary'
+              type='reset'
               onClick={handleResetForm}
             >
-              {t("form.reset")}
+              {t('form.reset')}
             </Button>
             <Button
               disabled={!isValid}
-              className="w-full h-10 font-bold hover:bg-white/200 hover:text-black hover:border-2 hover: border-black transition-colors duration-300"
-              data-cursor="hover"
-              type="submit"
+              className='w-full h-10 font-bold hover:bg-white/200 hover:text-black hover:border-2 hover: border-black transition-colors duration-300'
+              data-cursor='hover'
+              type='submit'
             >
-              {t("form.submit")}
+              {t('form.submit')}
             </Button>
           </div>
         </form>
       </Card>
     </>
-  );
-};
+  )
+}
 
-export default LoginForm;
+export default LoginForm

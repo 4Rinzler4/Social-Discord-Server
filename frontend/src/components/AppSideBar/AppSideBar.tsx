@@ -10,93 +10,93 @@ import {
   SidebarMenuItem,
   SidebarSeparator,
   useSidebar,
-} from "@/components/ui/sidebar";
-import { Home, BadgePlus, User, Send, LogOut, Settings } from "lucide-react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import sideBarImg from "@/assets/images/barImg.avif";
-import { useLogoutMutation } from "@/services/auth-service";
-import { useTranslation } from "react-i18next";
+} from '@/components/ui/sidebar'
+import { Home, BadgePlus, User, Send, LogOut, Settings } from 'lucide-react'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { Button } from '@/components/ui/button'
+import sideBarImg from '@/assets/images/barImg.avif'
+import { useLogoutMutation } from '@/services/auth-service'
+import { useTranslation } from 'react-i18next'
 
 const AppSideBar = () => {
-  const location = useLocation();
-  const [logoutUser] = useLogoutMutation();
-  const { setOpenMobile } = useSidebar();
-  const navigate = useNavigate();
-  const { t } = useTranslation();
+  const location = useLocation()
+  const [logoutUser] = useLogoutMutation()
+  const { setOpenMobile } = useSidebar()
+  const navigate = useNavigate()
+  const { t } = useTranslation()
 
   const handleLogout = async () => {
     try {
-      await logoutUser().unwrap();
-      navigate("/home", { replace: true });
+      await logoutUser().unwrap()
+      navigate('/home', { replace: true })
     } catch (error) {
-      console.error(error);
+      console.error(error)
     }
-  };
+  }
   const menuItems = [
-    { to: "/", icon: Home, label: "Home" },
-    { to: "/direct", icon: Send, label: "Direct" },
-    { to: "/create-post", icon: BadgePlus, label: "Create" },
-    { to: "/profile/settings", icon: Settings, label: "Settings" },
-  ];
+    { to: '/', icon: Home, label: 'Home' },
+    { to: '/direct', icon: Send, label: 'Direct' },
+    { to: '/create-post', icon: BadgePlus, label: 'Create' },
+    { to: '/profile/settings', icon: Settings, label: 'Settings' },
+  ]
   return (
     <Sidebar
-      collapsible="icon"
-      className="bg-black border-r-[20px] border-white"
+      collapsible='icon'
+      className='bg-black border-r-[20px] border-white'
     >
-      <SidebarHeader className="w-full border-b border-white bg-black">
+      <SidebarHeader className='w-full border-b border-white bg-black'>
         <div>
           <img
             src={sideBarImg}
-            className="hidden group-data-[state=collapsed]:block w-8 h-8"
+            className='hidden group-data-[state=collapsed]:block w-8 h-8'
           />
-          <span className="font-semibold text-white group-data-[state=collapsed]:hidden">
+          <span className='font-semibold text-white group-data-[state=collapsed]:hidden'>
             Shade Garden
           </span>
         </div>
       </SidebarHeader>
-      <SidebarContent className="bg-black justify-center">
-        <SidebarGroup className="bg-black">
-          <SidebarSeparator className="border-white border-1 mb-2" />
+      <SidebarContent className='bg-black justify-center'>
+        <SidebarGroup className='bg-black'>
+          <SidebarSeparator className='border-white border-1 mb-2' />
           <SidebarGroupContent>
             <SidebarMenu>
               {menuItems.map(({ to, icon: Icon, label }) => (
                 <SidebarMenuItem key={to}>
                   <SidebarMenuButton
                     isActive={location.pathname === to}
-                    className="!bg-black !rounded-2xl hover:!bg-white transition-colors duration-150"
+                    className='!bg-black !rounded-2xl hover:!bg-white transition-colors duration-150'
                   >
                     <Link
                       onClick={() => setOpenMobile(false)}
-                      className="w-full flex justify-center p-1 text-white hover:!text-black font-bold gap-2"
+                      className='w-full flex justify-center p-1 text-white hover:!text-black font-bold gap-2'
                       to={to}
                     >
-                      <Icon className="!w-5 !h-5 shrink-0" />
-                      <span className="group-data-[state=collapsed]:hidden">
+                      <Icon className='!w-5 !h-5 shrink-0' />
+                      <span className='group-data-[state=collapsed]:hidden'>
                         {label}
                       </span>
                     </Link>
                   </SidebarMenuButton>
-                  <SidebarSeparator className="border-white border-1 my-2" />
+                  <SidebarSeparator className='border-white border-1 my-2' />
                 </SidebarMenuItem>
               ))}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter className="bg-black">
+      <SidebarFooter className='bg-black'>
         <SidebarContent>
-          <SidebarMenu className="mb-8">
+          <SidebarMenu className='mb-8'>
             <SidebarMenuItem>
-              <SidebarMenuButton className="!bg-black !rounded-2xl hover:!bg-white">
+              <SidebarMenuButton className='!bg-black !rounded-2xl hover:!bg-white'>
                 <Link
                   onClick={() => setOpenMobile(false)}
-                  className="w-full flex justify-center p-1 text-white hover:!text-black font-bold gap-2"
-                  to="/profile"
+                  className='w-full flex justify-center p-1 text-white hover:!text-black font-bold gap-2'
+                  to='/profile'
                 >
-                  <User className="!w-5 !h-5 shrink-0" />
-                  <span className="group-data-[state=collapsed]:hidden">
-                    {t("user.profile")}
+                  <User className='!w-5 !h-5 shrink-0' />
+                  <span className='group-data-[state=collapsed]:hidden'>
+                    {t('user.profile')}
                   </span>
                 </Link>
               </SidebarMenuButton>
@@ -104,16 +104,16 @@ const AppSideBar = () => {
 
             <Button
               onClick={handleLogout}
-              className="group-data-[state=collapsed]:hidden mt-2 font-bold text-red-400 bg-black"
+              className='group-data-[state=collapsed]:hidden mt-2 font-bold text-red-400 bg-black'
             >
-              <LogOut className="!w-5 !h-5 shrink-0" />
+              <LogOut className='!w-5 !h-5 shrink-0' />
               Log out
             </Button>
           </SidebarMenu>
         </SidebarContent>
       </SidebarFooter>
     </Sidebar>
-  );
-};
+  )
+}
 
-export default AppSideBar;
+export default AppSideBar

@@ -1,7 +1,7 @@
-import common from "./common.json";
-import form from "./form.json";
-import errors from "./errors.json";
-import user from "./user.json";
+import common from './common.json'
+import form from './form.json'
+import errors from './errors.json'
+import user from './user.json'
 
 const en = {
   translations: {
@@ -10,6 +10,6 @@ const en = {
     errors,
     user,
   },
-};
+}
 
-export default en;
+export default en

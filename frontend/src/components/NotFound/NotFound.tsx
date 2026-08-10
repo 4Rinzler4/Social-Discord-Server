@@ -1,7 +1,7 @@
 type NotFoundProps = {
-  title: string;
-  message: string;
-};
+  title: string
+  message: string
+}
 
 const NotFound = ({ title, message }: NotFoundProps) => {
   return (
@@ -9,7 +9,7 @@ const NotFound = ({ title, message }: NotFoundProps) => {
       <p>{title}</p>
       <p>{message}</p>
     </>
-  );
-};
+  )
+}
 
-export default NotFound;
+export default NotFound

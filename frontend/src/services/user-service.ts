@@ -1,9 +1,9 @@
-import { URLs } from "@/constants/requests";
-import { appApi } from "@/redux/apiSlice";
-import { ApiMethod } from "@/types/enums/common-enums";
-import type { UserResponse } from "@/types/response-types";
+import { URLs } from '@/constants/requests'
+import { appApi } from '@/redux/apiSlice'
+import { ApiMethod } from '@/types/enums/common-enums'
+import type { UserResponse } from '@/types/response-types'
 
-const { GET } = ApiMethod;
+const { GET } = ApiMethod
 
 export const userService = appApi.injectEndpoints({
   endpoints: (build) => ({
@@ -23,10 +23,10 @@ export const userService = appApi.injectEndpoints({
         url: URLs.user.myProfile,
         method: GET,
       }),
-      providesTags: ["Me"],
+      providesTags: ['Me'],
     }),
   }),
-});
+})
 
 export const { useGetAllUsersQuery, useGetUserByIdQuery, useGetMeQuery } =
-  userService;
+  userService

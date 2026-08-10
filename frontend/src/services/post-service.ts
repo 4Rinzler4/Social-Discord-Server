@@ -1,10 +1,10 @@
-import { URLs } from "@/constants/requests";
-import { appApi } from "@/redux/apiSlice";
-import { ApiMethod } from "@/types/enums/common-enums";
-import type { CreatePostParams } from "@/types/params-types";
-import type { PostResponse } from "@/types/response-types";
+import { URLs } from '@/constants/requests'
+import { appApi } from '@/redux/apiSlice'
+import { ApiMethod } from '@/types/enums/common-enums'
+import type { CreatePostParams } from '@/types/params-types'
+import type { PostResponse } from '@/types/response-types'
 
-const { GET, POST, DELETE } = ApiMethod;
+const { GET, POST, DELETE } = ApiMethod
 
 export const postsService = appApi.injectEndpoints({
   endpoints: (build) => ({
@@ -21,16 +21,16 @@ export const postsService = appApi.injectEndpoints({
 
     createPost: build.mutation<void, CreatePostParams>({
       query: ({ image, description }) => {
-        const formData = new FormData();
-        formData.append("image", image);
+        const formData = new FormData()
+        formData.append('image', image)
         if (description) {
-          formData.append("description", description);
+          formData.append('description', description)
         }
         return {
           url: URLs.post.create,
           method: POST,
           body: formData,
-        };
+        }
       },
     }),
 
@@ -41,11 +41,11 @@ export const postsService = appApi.injectEndpoints({
       }),
     }),
   }),
-});
+})
 
 export const {
   useGetPostsByUserIdQuery,
   useGetPostByIdQuery,
   useCreatePostMutation,
   useDeletePostMutation,
-} = postsService;
+} = postsService
