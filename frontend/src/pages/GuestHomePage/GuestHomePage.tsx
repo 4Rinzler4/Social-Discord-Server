@@ -1,5 +1,5 @@
-import GuestHeader from "@/components/GuestHeader/GuestHeader";
-import HeaderHero from "@/components/HeaderHero/HeaderHero";
+import GuestHeader from '@/components/GuestHeader/GuestHeader'
+import HeaderHero from '@/components/HeaderHero/HeaderHero'
 
 const GuestHomePage = () => {
   return (
@@ -7,7 +7,7 @@ const GuestHomePage = () => {
       <GuestHeader />
       <HeaderHero />
     </>
-  );
-};
+  )
+}
 
-export default GuestHomePage;
+export default GuestHomePage

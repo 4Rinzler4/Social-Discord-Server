@@ -1,17 +1,17 @@
 export interface SignUpResponse {
-  accessToken: string;
+  accessToken: string
 }
 export interface SignUpParams {
-  nickname: string;
-  fullname: string;
-  email: string;
-  password: string;
+  nickname: string
+  fullname: string
+  email: string
+  password: string
 }
 
 export interface LogInResponse {
-  accessToken: string;
+  accessToken: string
 }
 export interface LogInParams {
-  email: string;
-  password: string;
+  email: string
+  password: string
 }

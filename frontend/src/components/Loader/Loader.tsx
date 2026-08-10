@@ -1,9 +1,9 @@
-import type { FC } from "react";
-import type { LoaderProps } from "@/types/types-props";
-import styles from "@/components/Loader/Loader.module.css";
+import type { FC } from 'react'
+import type { LoaderProps } from '@/types/types-props'
+import styles from '@/components/Loader/Loader.module.css'
 
 const Loader: FC<LoaderProps> = ({ pageLoading }) => {
-  if (!pageLoading) return null;
+  if (!pageLoading) return null
 
   return (
     <div className={styles.loader}>
@@ -15,7 +15,7 @@ const Loader: FC<LoaderProps> = ({ pageLoading }) => {
         <div className={`${styles.crack} ${styles.crack5}`}></div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Loader;
+export default Loader

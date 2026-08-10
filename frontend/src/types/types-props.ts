@@ -1,12 +1,12 @@
 export type LoaderProps = {
-  pageLoading: boolean;
-};
+  pageLoading: boolean
+}
 
 export type NavItemsType = {
-  to: string;
-  label: string;
-};
+  to: string
+  label: string
+}
 
 export type BurgerMenuProps = {
-  navItems: NavItemsType[];
-};
+  navItems: NavItemsType[]
+}

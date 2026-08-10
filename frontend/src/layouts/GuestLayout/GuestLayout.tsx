@@ -1,5 +1,5 @@
-import GuestHeader from "@/components/GuestHeader/GuestHeader";
-import { Outlet } from "react-router-dom";
+import GuestHeader from '@/components/GuestHeader/GuestHeader'
+import { Outlet } from 'react-router-dom'
 
 const GuestLayout = () => {
   return (
@@ -7,7 +7,7 @@ const GuestLayout = () => {
       <GuestHeader />
       <Outlet />
     </>
-  );
-};
+  )
+}
 
-export default GuestLayout;
+export default GuestLayout

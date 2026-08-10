@@ -1,7 +1,7 @@
-import AppWrapper from "@/router/appWrapper";
-import Cursor from "@/components/Cursor/Cursor";
-import { store } from "@/redux/store";
-import { Provider } from "react-redux";
+import AppWrapper from '@/router/appWrapper'
+import Cursor from '@/components/Cursor/Cursor'
+import { store } from '@/redux/store'
+import { Provider } from 'react-redux'
 
 const App = () => {
   return (
@@ -11,7 +11,7 @@ const App = () => {
         <Cursor />
       </Provider>
     </>
-  );
-};
+  )
+}
 
-export default App;
+export default App

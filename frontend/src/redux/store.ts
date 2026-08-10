@@ -1,7 +1,7 @@
-import { configureStore } from "@reduxjs/toolkit";
-import appUserReducer from "@/redux/reducer";
-import { setupListeners } from "@reduxjs/toolkit/query";
-import { appApi } from "./apiSlice";
+import { configureStore } from '@reduxjs/toolkit'
+import appUserReducer from '@/redux/reducer'
+import { setupListeners } from '@reduxjs/toolkit/query'
+import { appApi } from './apiSlice'
 
 export const store = configureStore({
   reducer: {
@@ -10,9 +10,9 @@ export const store = configureStore({
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(appApi.middleware),
-});
+})
 
-setupListeners(store.dispatch);
+setupListeners(store.dispatch)
 
-export type RootState = ReturnType<typeof store.getState>;
-export type AppDispatch = typeof store.dispatch;
+export type RootState = ReturnType<typeof store.getState>
+export type AppDispatch = typeof store.dispatch

@@ -1,24 +1,24 @@
-import GuestBackground from "@/components/GuestBackground/GustBackground";
-import SignUpDialog from "./components/SignUp/SignUpDialog/SignUpDialog";
-import { useState } from "react";
-import LoginDialog from "./components/Login/LoginDialog/LoginDialog";
+import GuestBackground from '@/components/GuestBackground/GustBackground'
+import SignUpDialog from './components/SignUp/SignUpDialog/SignUpDialog'
+import { useState } from 'react'
+import LoginDialog from './components/Login/LoginDialog/LoginDialog'
 
 const AuthPage = () => {
-  const [mode, setMode] = useState<string>("signup");
+  const [mode, setMode] = useState<string>('signup')
 
   const setLoginMode = () => {
-    setMode("login");
-  };
+    setMode('login')
+  }
 
   const setSignUpMode = () => {
-    setMode("signup");
-  };
+    setMode('signup')
+  }
 
   return (
     <>
       <GuestBackground
         content={
-          mode === "signup" ? (
+          mode === 'signup' ? (
             <SignUpDialog onSwitch={setLoginMode} />
           ) : (
             <LoginDialog onSwitch={setSignUpMode} />
@@ -26,7 +26,7 @@ const AuthPage = () => {
         }
       />
     </>
-  );
-};
+  )
+}
 
-export default AuthPage;
+export default AuthPage

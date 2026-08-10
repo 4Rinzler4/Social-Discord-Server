@@ -1,5 +1,5 @@
-import ProfileHeader from "@/components/ProfileHeader/ProfileHeader";
-import { Outlet } from "react-router-dom";
+import ProfileHeader from '@/components/ProfileHeader/ProfileHeader'
+import { Outlet } from 'react-router-dom'
 
 const ProfileLayout = () => {
   return (
@@ -7,7 +7,7 @@ const ProfileLayout = () => {
       <ProfileHeader />
       <Outlet />
     </>
-  );
-};
+  )
+}
 
-export default ProfileLayout;
+export default ProfileLayout

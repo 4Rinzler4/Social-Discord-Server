@@ -1,5 +1,5 @@
 const UserDirect = () => {
-  return <></>;
-};
+  return <></>
+}
 
-export default UserDirect;
+export default UserDirect
