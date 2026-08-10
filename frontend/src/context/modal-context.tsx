@@ -1,4 +1,4 @@
-import PopupDialog from "@/components/PopupDialog/PopupDialog";
+import PopupDialog from '@/components/PopupDialog/PopupDialog'
 import {
   createContext,
   useCallback,
@@ -6,46 +6,46 @@ import {
   useState,
   type FC,
   type ReactElement,
-} from "react";
+} from 'react'
 
 type Component = {
-  component: ReactElement;
-};
+  component: ReactElement
+}
 
 type ModalProviderProps = {
-  children: ReactElement;
-};
+  children: ReactElement
+}
 
 type ModalProviderContext = {
-  openModal: ({ component }: Component) => void;
-  closeModal: () => void;
-};
+  openModal: ({ component }: Component) => void
+  closeModal: () => void
+}
 
 const ModalContext = createContext<ModalProviderContext>(
   {} as ModalProviderContext,
-);
+)
 
 const ModalProvider: FC<ModalProviderProps> = ({ children }) => {
-  const [modal, setModal] = useState<ReactElement | null>(null);
+  const [modal, setModal] = useState<ReactElement | null>(null)
 
   const openModal = useCallback(
     ({ component }: Component) => {
-      setModal(component);
+      setModal(component)
     },
     [setModal],
-  );
+  )
 
   const closeModal = useCallback(() => {
-    setModal(null);
-  }, [setModal]);
+    setModal(null)
+  }, [setModal])
 
   return (
     <ModalContext.Provider value={{ openModal, closeModal }}>
       {children}
       <PopupDialog content={modal} closeModal={closeModal} />
     </ModalContext.Provider>
-  );
-};
+  )
+}
 
-const useModalContext = () => useContext(ModalContext);
-export { ModalProvider, useModalContext };
+const useModalContext = () => useContext(ModalContext)
+export { ModalProvider, useModalContext }

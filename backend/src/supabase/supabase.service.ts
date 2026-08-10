@@ -1,4 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { createClient } from '@supabase/supabase-js';
 import { randomUUID } from 'crypto';
@@ -28,6 +32,10 @@ export class SupabaseService {
   }
 
   async upload(file: Express.Multer.File) {
+    const MAX_FILE_SIZE = 10 * 1024 * 1024;
+    if (file.size > MAX_FILE_SIZE) {
+      throw new BadRequestException('Maximum file size 10Mb');
+    }
     const extension = extname(file.originalname);
     const fileName = `${randomUUID()}${extension}`;
     const { error } = await this.subClient.storage
@@ -38,7 +46,7 @@ export class SupabaseService {
       });
 
     if (error) {
-      throw error;
+      throw new InternalServerErrorException(error.message);
     }
 
     return this.getPublicUrl('posts', fileName);

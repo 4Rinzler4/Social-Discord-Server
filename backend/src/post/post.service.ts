@@ -47,7 +47,12 @@ export class PostService {
   }
 
   async getPostById(id: string) {
-    const post = await this.prismaService.post.findUnique({ where: { id } });
+    const post = await this.prismaService.post.findUnique({
+      where: { id },
+      include: {
+        owner: { select: { id: true, nickname: true, avatarUrl: true } },
+      },
+    });
     if (!post) {
       throw new NotFoundException(`Post with id: ${id} not found!`);
     }
