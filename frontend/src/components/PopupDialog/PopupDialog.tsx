@@ -11,9 +11,13 @@ const PopupDialog: FC<PopupDialogProps> = ({ content, closeModal }) => {
   if (!content) return null
 
   return (
-    <div className='fixed inset-0 z-50 flex items-center justify-center bg-black/70'>
-      <div className='relative rounded-lg bg-zinc-900 p-6'>
-        <Button className='absolute right-2 top-2' onClick={closeModal}>
+    <div className='fixed inset-0 z-50 flex items-center justify-center bg-black/50'>
+      <div className='relative rounded-lg bg-black border-2 border-white p-6'>
+        <Button
+          data-cursor='hover'
+          className='absolute right-2 top-2 bg-white text-black hover:text-white hover:border-white hover:bg-black'
+          onClick={closeModal}
+        >
           {<X />}
         </Button>
 

@@ -1,5 +1,5 @@
 import UserHeader from '@/pages/UserProfilePage/components/UserHeader/UserHeader'
-import { useGetMeQuery } from '@/services/user-service'
+import { useGetMeQuery } from '@/services/userService'
 import { useParams } from 'react-router-dom'
 import PostList from './components/PostList/PostList'
 

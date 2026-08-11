@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
 import { FaDiscord } from 'react-icons/fa'
 import type { FC } from 'react'
-import type { BurgerMenuProps } from '@/types/types-props'
+import type { BurgerMenuProps } from '@/types/typesProps'
 
 const BurgerMenu: FC<BurgerMenuProps> = ({ navItems }) => {
   const { t } = useTranslation()

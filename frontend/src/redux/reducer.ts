@@ -1,5 +1,5 @@
-import { AuthService } from '@/services/auth-service'
-import { clearAccessToken, setAccessToken } from '@/services/token-service'
+import { AuthService } from '@/services/authService'
+import { clearAccessToken, setAccessToken } from '@/services/tokenService'
 import {
   createAsyncThunk,
   createSlice,

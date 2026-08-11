@@ -1,8 +1,8 @@
 import { URLs } from '@/constants/requests'
 import { appApi } from '@/redux/apiSlice'
-import { ApiMethod } from '@/types/enums/common-enums'
-import type { CreatePostParams } from '@/types/params-types'
-import type { PostResponse } from '@/types/response-types'
+import { ApiMethod } from '@/types/enums/commonEnums'
+import type { CreatePostParams } from '@/types/paramsTypes'
+import type { PostResponse } from '@/types/responseTypes'
 
 const { GET, POST, DELETE } = ApiMethod
 

@@ -1,7 +1,7 @@
 import { type SignUpFormData, SignUpFormSchema } from '@/schemas/signUpSchema'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useSignUpMutation } from '@/services/auth-service'
+import { useSignUpMutation } from '@/services/authService'
 import {
   Field,
   FieldError,

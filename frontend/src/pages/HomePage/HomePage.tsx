@@ -1,4 +1,4 @@
-import { useAppSelector } from '@/hooks/use-redux'
+import { useAppSelector } from '@/hooks/useRedux'
 import GuestHomePage from '../GuestHomePage/GuestHomePage'
 import UserHomePage from '../UserHomePage/UserHomePage'
 

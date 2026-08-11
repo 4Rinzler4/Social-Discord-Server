@@ -3,15 +3,15 @@ import { axiosClient } from '@/plugins/axiosClient'
 import { appApi } from '@/redux/apiSlice'
 import { authSuccess, logout } from '@/redux/reducer'
 import type { AxiosResponse } from 'axios'
-import { ApiMethod } from '@/types/enums/common-enums'
+import { ApiMethod } from '@/types/enums/commonEnums'
 import type {
   LogInParams,
   LogInResponse,
   SignUpParams,
   SignUpResponse,
 } from '@/interfaces/user-interfaces'
-import { userService } from './user-service'
-import { clearAccessToken, setAccessToken } from './token-service'
+import { userService } from './userService'
+import { clearAccessToken, setAccessToken } from './tokenService'
 
 const { POST } = ApiMethod
 

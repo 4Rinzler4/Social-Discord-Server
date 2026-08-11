@@ -15,7 +15,7 @@ import { Home, BadgePlus, User, Send, LogOut, Settings } from 'lucide-react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
 import sideBarImg from '@/assets/images/barImg.avif'
-import { useLogoutMutation } from '@/services/auth-service'
+import { useLogoutMutation } from '@/services/authService'
 import { useTranslation } from 'react-i18next'
 
 const AppSideBar = () => {

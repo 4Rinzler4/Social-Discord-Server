@@ -13,7 +13,28 @@ export type PostResponse = {
   imageUrl: string
   description?: string
   ownerId: string
+  likes: LikeResponse[]
+  comments: CommentResponse[]
+  createdAt: string
   owner: {
+    id: string
+    nickname: string
+    avatarUrl: string
+  }
+}
+
+export type LikeResponse = {
+  userId: string
+  postId: string
+}
+
+export type CommentResponse = {
+  id: string
+  userId: string
+  postId: string
+  content: string
+  createdAt: string
+  user: {
     id: string
     nickname: string
     avatarUrl: string

@@ -43,6 +43,27 @@ export class PostService {
     return this.prismaService.post.findMany({
       where: { ownerId: userId },
       orderBy: { createdAt: 'desc' },
+      include: {
+        likes: true,
+        comments: {
+          include: {
+            user: {
+              select: {
+                id: true,
+                nickname: true,
+                avatarUrl: true,
+              },
+            },
+          },
+        },
+        owner: {
+          select: {
+            id: true,
+            nickname: true,
+            avatarUrl: true,
+          },
+        },
+      },
     });
   }
 
@@ -50,12 +71,43 @@ export class PostService {
     const post = await this.prismaService.post.findUnique({
       where: { id },
       include: {
-        owner: { select: { id: true, nickname: true, avatarUrl: true } },
+        likes: true,
+
+        comments: {
+          include: {
+            user: {
+              select: {
+                id: true,
+                nickname: true,
+                avatarUrl: true,
+              },
+            },
+          },
+        },
+
+        owner: {
+          select: {
+            id: true,
+            nickname: true,
+            avatarUrl: true,
+          },
+        },
       },
     });
+
     if (!post) {
       throw new NotFoundException(`Post with id: ${id} not found!`);
     }
-    return post;
+
+    return {
+      ...post,
+      owner: {
+        ...post.owner,
+        avatarUrl: this.supabaseService.getPublicUrl(
+          'avatars',
+          post.owner.avatarUrl,
+        ),
+      },
+    };
   }
 }

@@ -1,7 +1,7 @@
 import AppWrapper from '@/router/appWrapper'
 import Cursor from '@/components/Cursor/Cursor'
 import { store } from '@/redux/store'
-import { ModalProvider } from './context/modal-context'
+import { ModalProvider } from '@/context/modalContext'
 import { Provider } from 'react-redux'
 
 const App = () => {

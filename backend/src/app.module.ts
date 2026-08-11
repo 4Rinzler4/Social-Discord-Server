@@ -7,6 +7,8 @@ import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { SupabaseModule } from './supabase/supabase.module';
 import { PostModule } from './post/post.module';
+import { LikeModule } from './like/like.module';
+import { CommentModule } from './comment/comment.module';
 
 @Module({
   imports: [
@@ -16,6 +18,8 @@ import { PostModule } from './post/post.module';
     AuthModule,
     UserModule,
     PostModule,
+    CommentModule,
+    LikeModule,
   ],
   controllers: [AppController],
   providers: [AppService],

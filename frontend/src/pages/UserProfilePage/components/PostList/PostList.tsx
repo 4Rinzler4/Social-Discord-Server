@@ -1,9 +1,9 @@
-import { useGetPostsByUserIdQuery } from '@/services/post-service'
-import { Loader } from 'lucide-react'
+import { useGetPostsByUserIdQuery } from '@/services/postService'
 import PostItem from '../PostItem/PostItem'
 import { Button } from '@/components/ui/button'
 import { useState } from 'react'
 import PostModal from '@/components/PostModal/PostModal'
+import Loader from '@/components/Loader/Loader'
 
 type PostListProp = {
   userId: string
@@ -13,8 +13,10 @@ const PostList = ({ userId }: PostListProp) => {
   const [selectedPost, setSelectedPost] = useState<string | null>(null)
   const { data: posts, isLoading } = useGetPostsByUserIdQuery(userId)
 
+  console.log('posts', posts)
+
   if (isLoading) {
-    return <Loader />
+    return <Loader pageLoading />
   }
 
   if (!posts) {
@@ -32,12 +34,14 @@ const PostList = ({ userId }: PostListProp) => {
 
   return (
     <>
-      <div className='w-full px-10 lg:px-30 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3'>
+      <div className='w-full px-10 items-center lg:px-30 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4'>
         {posts.map((post) => (
           <PostItem
             key={post.id}
             imageUrl={post.imageUrl}
             onOpen={() => setSelectedPost(post.id)}
+            comments={post.comments.length}
+            likes={post.likes.length}
           />
         ))}
       </div>

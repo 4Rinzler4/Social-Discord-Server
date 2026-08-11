@@ -1,5 +1,5 @@
 import Loader from '@/components/Loader/Loader'
-import { useAppDispatch, useAppSelector } from '@/hooks/use-redux'
+import { useAppDispatch, useAppSelector } from '@/hooks/useRedux'
 import GuestLayout from '@/layouts/GuestLayout/GuestLayout'
 import ProfileLayout from '@/layouts/ProfileLayout/ProfileLayout'
 import ProtectedLayout from '@/layouts/ProtectedLayout/ProtectedLayout'

@@ -1,9 +1,10 @@
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import { TypographyP } from '@/components/ui/typography'
-import { useGetMeQuery, useGetUserByIdQuery } from '@/services/user-service'
+import { useGetMeQuery, useGetUserByIdQuery } from '@/services/userService'
 import { Loader } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
+import { useNavigate } from 'react-router-dom'
 
 type UserHeaderProp = {
   userId: string
@@ -14,6 +15,11 @@ const UserHeader = ({ userId }: UserHeaderProp) => {
   const { data: user, isLoading } = useGetUserByIdQuery(userId)
   const isMyProfile = me?.id === user?.id
   const { t } = useTranslation()
+  const navigate = useNavigate()
+
+  const handleEditProfile = () => {
+    navigate('/profile/settings')
+  }
 
   if (isLoading || !user) {
     return <Loader />
@@ -23,13 +29,12 @@ const UserHeader = ({ userId }: UserHeaderProp) => {
 
   return (
     <>
-      <header className='w-full flex justify-center text-white p-5 mt-5'>
+      <header className='w-full flex justify-center text-white p-5 mt-5 bg-black/50 backdrop-blur-sm'>
         <div className='flex items-center gap-1 md:gap-7 bg-black/65 py-1 md:py-3 px-5 md:px-10 rounded-[20px]'>
           <img
-            className='w-15 h-15 md:w-30 md:h-30 border-2 rounded-full'
             src={avatarUrl}
             alt='User Avatar'
-            draggable={false}
+            className='w-15 h-15 md:w-30 md:h-30 border-2 rounded-full'
           />
           <div className='w-full flex flex-col justify-start p-4'>
             <h4 className='text-xs md:text-xl font-bold'>{nickname}</h4>
@@ -59,7 +64,8 @@ const UserHeader = ({ userId }: UserHeaderProp) => {
                 <>
                   <Button
                     data-cursor='hover'
-                    className='w-full font-bold hover:bg-white hover:text-black'
+                    className='w-full font-bold hover:bg-white hover:text-black border border-white'
+                    onClick={handleEditProfile}
                   >
                     {t('user.editProfile')}
                   </Button>

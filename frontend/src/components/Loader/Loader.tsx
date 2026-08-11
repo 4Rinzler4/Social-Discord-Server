@@ -1,5 +1,5 @@
 import type { FC } from 'react'
-import type { LoaderProps } from '@/types/types-props'
+import type { LoaderProps } from '@/types/typesProps'
 import styles from '@/components/Loader/Loader.module.css'
 
 const Loader: FC<LoaderProps> = ({ pageLoading }) => {

@@ -4,7 +4,7 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from '@/components/ui/sidebar'
-import { useAppSelector } from '@/hooks/use-redux'
+import { useAppSelector } from '@/hooks/useRedux'
 import { Navigate, Outlet } from 'react-router-dom'
 
 const ProtectedLayout = () => {

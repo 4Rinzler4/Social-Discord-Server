@@ -1,7 +1,7 @@
 import { URLs } from '@/constants/requests'
 import { appApi } from '@/redux/apiSlice'
-import { ApiMethod } from '@/types/enums/common-enums'
-import type { UserResponse } from '@/types/response-types'
+import { ApiMethod } from '@/types/enums/commonEnums'
+import type { UserResponse } from '@/types/responseTypes'
 
 const { GET } = ApiMethod
 

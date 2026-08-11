@@ -1,8 +1,12 @@
-import { useGetPostByIdQuery } from '@/services/post-service'
-import type { FC } from 'react'
-import { Button } from '@/components/ui/button'
+import { useGetMeQuery } from '@/services/userService'
 import { TypographyP } from '@/components/ui/typography'
-import { X, Loader } from 'lucide-react'
+import { Loader, X } from 'lucide-react'
+import PostDropMenu from '@/components/PostModal/components/PostDropMenu/PostDropMenu'
+import { Button } from '@/components/ui/button'
+import { useGetPostByIdQuery } from '@/services/postService'
+import type { FC } from 'react'
+import PostDescription from '@/components/PostModal/components/PostDescription/PostDescription'
+import { Avatar, AvatarImage } from '@/components/ui/avatar'
 
 type PostModalProps = {
   postId: string
@@ -10,27 +14,70 @@ type PostModalProps = {
 }
 
 const PostModal: FC<PostModalProps> = ({ postId, onClose }) => {
-  const { data: post } = useGetPostByIdQuery(postId!, {
-    skip: !postId,
-  })
+  const { data: post } = useGetPostByIdQuery(postId)
+  const { data: me } = useGetMeQuery()
 
-  console.log(post)
-
-  if (!post) return <Loader className='h-6 w-6 animate-spin' />
+  if (!post) {
+    return <Loader className='h-6 w-6 animate-spin' />
+  }
 
   return (
-    <>
-      <div className='absolute flex justify-evenly inset-0 w-full bg-black text-white p-20'>
-        <img src={post.imageUrl} />
-        <div className='flex gap-2 items-center justify-center'>
-          <img src={post.owner.avatarUrl} className='w-7S h-7' />
-          <TypographyP className='!m-0'>{post.owner.nickname}</TypographyP>
+    <div className='fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm text-white' onClick={onClose}>
+      <div className='relative flex flex-col md:flex-row max-h-[100vh] max-w-7xl overflow-hidden rounded-sm bg-black border border-white' onClick={(e) => e.stopPropagation()}>
+        {/* Image */}
+        <div className='flex items-center justify-center'>
+          <img
+            src={post.imageUrl}
+            alt={post.owner.nickname}
+            className='max-h-[100vh] max-w-full object-contain'
+          />
         </div>
-        <Button className='absolute top-2 right-2' onClick={onClose}>
-          {<X />}
-        </Button>
+
+        {/* Right panel */}
+        <div className='relative flex w-full md:w-96 flex-col bg-black p-4'>
+          {/* User */}
+          <div className='flex items-center gap-2 border-b border-white pb-2'>
+            <Avatar>
+              <AvatarImage
+                src={post.owner.avatarUrl}
+                alt={post.owner.nickname}
+                className='h-7 w-7 rounded-full'
+              />
+            </Avatar>
+
+            <TypographyP className='!m-0 font-semibold'>
+              {post.owner.nickname}
+            </TypographyP>
+          </div>
+          <div className='flex w-full pt-2'>
+            {post.description ? (
+              <PostDescription
+                avatarUrl={post.owner.avatarUrl}
+                nickname={post.owner.nickname}
+                description={post.description}
+              />
+            ) : null}
+          </div>
+
+          {/* Menu */}
+          {me?.id === post.owner.id && (
+            <div className='absolute right-2 top-2'>
+              <PostDropMenu postId={post.id} onClose={onClose} />
+            </div>
+          )}
+        </div>
       </div>
-    </>
+
+      {/* Close */}
+      <Button
+        data-cursor='hover'
+        variant='outline'
+        className='absolute right-2 top-2 hover:bg-white hover:text-black'
+        onClick={onClose}
+      >
+        <X />
+      </Button>
+    </div>
   )
 }
 

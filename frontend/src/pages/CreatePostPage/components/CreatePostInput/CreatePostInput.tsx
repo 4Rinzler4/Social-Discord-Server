@@ -1,8 +1,10 @@
+import Loader from '@/components/Loader/Loader'
+import SuccessPostModal from '@/components/SuccessPostModal/SuccessPostModal'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { TypographyH4 } from '@/components/ui/typography'
-import { useCreatePostMutation } from '@/services/post-service'
-import { Loader } from 'lucide-react'
+import { useModalContext } from '@/context/modalContext'
+import { useCreatePostMutation } from '@/services/postService'
 import { useEffect, useState } from 'react'
 import Dropzone from 'react-dropzone'
 
@@ -10,8 +12,9 @@ const CreatePostInput = () => {
   const [preview, setPreview] = useState<string>('')
   const [imageFile, setImageFile] = useState<File | null>(null)
   const [description, setDescription] = useState<string>('')
+  const { openModal } = useModalContext()
 
-  const [createPost, { isLoading }] = useCreatePostMutation()
+  const [createPost, { isLoading, isSuccess }] = useCreatePostMutation()
 
   const handleDrop = (acceptedFiles: File[]) => {
     const file = acceptedFiles[0]
@@ -51,8 +54,15 @@ const CreatePostInput = () => {
     return () => URL.revokeObjectURL(objectUrl)
   }, [imageFile])
 
+  useEffect(() => {
+    if (isSuccess) {
+      openModal({ component: <SuccessPostModal /> })
+      handleReset()
+    }
+  }, [isSuccess, openModal])
+
   if (isLoading) {
-    return <Loader />
+    return <Loader pageLoading />
   }
 
   return (
