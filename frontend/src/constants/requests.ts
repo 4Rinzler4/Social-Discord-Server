@@ -10,6 +10,7 @@ export const URLs = {
   user: {
     get: '/user',
     myProfile: '/auth/me',
+    updateLanguage: '/user/me/language',
   },
   post: {
     get: '/post',

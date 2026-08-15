@@ -6,5 +6,9 @@
   "signUp": {
     "errorTitle": "Не вдалося створити акаунт",
     "errorDescription": "Щось пішло не так. Спробуйте ще раз пізніше."
-  }
+  },
+  "USER_NOT_REGISTERED": "Користувач не зареєстрований",
+  "USER_ALREADY_REGISTERED": "Користувач вже зареєстрований",
+  "INVALID_CREDENTIALS": "Введений пароль не вірний",
+  "INVALID_REFRESH_TOKEN": ""
 }

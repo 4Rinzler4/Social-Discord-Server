@@ -16,11 +16,14 @@ import { useTranslation } from 'react-i18next'
 import { useLoginMutation } from '@/services/authService'
 import { useNavigate } from 'react-router-dom'
 import AlertModal from '@/components/AlertModal/AlertModal'
+import type { ApiError } from '@/interfaces/errorInterfaces'
+import type { FetchBaseQueryError } from '@reduxjs/toolkit/query'
 
 const LoginForm = () => {
   const [loginUser, { data, isSuccess }] = useLoginMutation()
-  const [showPassword, setShowPassword] = useState(false)
-  const [showAlert, setShowAlert] = useState(false)
+  const [showPassword, setShowPassword] = useState<boolean>(false)
+  const [showAlert, setShowAlert] = useState<boolean>(false)
+  const [errorCode, setErrorCode] = useState<string | null>(null)
 
   const { t } = useTranslation()
   const navigate = useNavigate()
@@ -40,7 +43,11 @@ const LoginForm = () => {
       await loginUser(data).unwrap()
       reset()
     } catch (error) {
-      console.log(`Login error: ${error}`)
+      const ApiError = error as FetchBaseQueryError
+      if ('data' in ApiError) {
+        const data = ApiError.data as ApiError
+        setErrorCode(data.code)
+      }
       setShowAlert(true)
     }
   }
@@ -62,13 +69,14 @@ const LoginForm = () => {
 
   return (
     <>
-      {showAlert ? (
+      {showAlert && (
         <AlertModal
+          className='block md:absolute top-0 left-0 w-full'
           title={t('errors.login.errorTitle')}
-          description={t('errors.login.errorDescription')}
+          description={t(`errors.${errorCode}`)}
           onClose={handleCloseAlert}
         />
-      ) : null}
+      )}
       <Card className='w-full ring-0 border-bottom shadow-none rounded-none p-0 gap-0'>
         <CardHeader className='text-center font-bold text-2xl'>
           {t('form.login')}
@@ -79,7 +87,7 @@ const LoginForm = () => {
               <FieldLabel className='pt-2'>{t('form.labels.email')}</FieldLabel>
               <Input
                 {...register('email')}
-                placeholder='Example@mail.com'
+                placeholder={t('form.labels.email')}
                 aria-invalid={!!errors.email}
               />
             </Field>
@@ -94,7 +102,7 @@ const LoginForm = () => {
                 <Input
                   {...register('password')}
                   type={showPassword ? 'text' : 'password'}
-                  placeholder='Password'
+                  placeholder={t('form.labels.password')}
                   aria-invalid={!!errors.password}
                 />
                 <button

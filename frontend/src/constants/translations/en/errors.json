@@ -6,5 +6,9 @@
   "signUp": {
     "errorTitle": "Sign up failed",
     "errorDescription": "Something went wrong. Please try again later."
-  }
+  },
+  "USER_NOT_REGISTERED": "User is not registered",
+  "USER_ALREADY_REGISTERED": "User already registered",
+  "INVALID_CREDENTIALS": "The password you entered is incorrect",
+  "INVALID_REFRESH_TOKEN": ""
 }

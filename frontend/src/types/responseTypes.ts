@@ -1,11 +1,18 @@
+import type { Lang } from './commonTypes'
+
 export type UserResponse = {
   id: string
   nickname: string
   fullname: string
   avatarUrl: string
+  appLang: Lang
   posts: PostResponse[]
   followers: FollowersResponse[]
   followings: FollowingsResponse[]
+}
+
+export type LangParam = {
+  appLang: Lang
 }
 
 export type PostResponse = {
@@ -13,19 +20,16 @@ export type PostResponse = {
   imageUrl: string
   description?: string
   ownerId: string
-  likes: LikeResponse[]
-  comments: CommentResponse[]
+  _count: {
+    likes: number
+    comments: number
+  }
   createdAt: string
   owner: {
     id: string
     nickname: string
     avatarUrl: string
   }
-}
-
-export type LikeResponse = {
-  userId: string
-  postId: string
 }
 
 export type CommentResponse = {

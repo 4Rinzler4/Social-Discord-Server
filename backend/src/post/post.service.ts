@@ -44,16 +44,10 @@ export class PostService {
       where: { ownerId: userId },
       orderBy: { createdAt: 'desc' },
       include: {
-        likes: true,
-        comments: {
-          include: {
-            user: {
-              select: {
-                id: true,
-                nickname: true,
-                avatarUrl: true,
-              },
-            },
+        _count: {
+          select: {
+            likes: true,
+            comments: true,
           },
         },
         owner: {

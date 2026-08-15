@@ -19,7 +19,7 @@ const LoginDialog = ({ onSwitch }: LoginDialogProps) => {
           alt='Form gif'
           className='hidden md:flex w-120 object-cover'
         />
-        <div className='flex flex-1 flex-col justify-center'>
+        <div className='relative flex flex-1 flex-col justify-center'>
           <LoginForm />
           <div className='flex justify-center items-center w-full'>
             <TypographyP className=''>{t('form.!haveAccount')}</TypographyP>

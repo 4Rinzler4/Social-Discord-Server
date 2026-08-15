@@ -1,9 +1,10 @@
 import { URLs } from '@/constants/requests'
 import { appApi } from '@/redux/apiSlice'
+import type { Lang } from '@/types/commonTypes'
 import { ApiMethod } from '@/types/enums/commonEnums'
-import type { UserResponse } from '@/types/responseTypes'
+import type { LangParam, UserResponse } from '@/types/responseTypes'
 
-const { GET } = ApiMethod
+const { GET, PATCH } = ApiMethod
 
 export const userService = appApi.injectEndpoints({
   endpoints: (build) => ({
@@ -25,8 +26,21 @@ export const userService = appApi.injectEndpoints({
       }),
       providesTags: ['Me'],
     }),
+
+    updateLang: build.mutation<Lang, LangParam>({
+      query: (body) => ({
+        url: URLs.user.updateLanguage,
+        method: PATCH,
+        body,
+      }),
+      invalidatesTags: ['Me'],
+    }),
   }),
 })
 
-export const { useGetAllUsersQuery, useGetUserByIdQuery, useGetMeQuery } =
-  userService
+export const {
+  useGetAllUsersQuery,
+  useGetUserByIdQuery,
+  useGetMeQuery,
+  useUpdateLangMutation,
+} = userService

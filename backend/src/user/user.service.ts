@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { UserResponseDto } from './dto/user.dto';
 import { SupabaseService } from '../supabase/supabase.service';
+import { AppLangDto } from './dto/lang.dto';
 
 @Injectable()
 export class UserService {
@@ -24,6 +25,7 @@ export class UserService {
         nickname: true,
         status: true,
         email: true,
+        appLang: true,
         posts: true,
         followers: true,
         followings: true,
@@ -36,5 +38,21 @@ export class UserService {
       ...user,
       avatarUrl: this.supabaseService.getPublicUrl('avatars', user.avatarUrl),
     };
+  }
+
+  async updateLanguage(userId: string, dto: AppLangDto) {
+    const { appLang } = dto;
+    return this.prismaService.user.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        appLang,
+      },
+      select: {
+        id: true,
+        appLang: true,
+      },
+    });
   }
 }

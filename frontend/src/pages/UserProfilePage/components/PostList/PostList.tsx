@@ -13,8 +13,6 @@ const PostList = ({ userId }: PostListProp) => {
   const [selectedPost, setSelectedPost] = useState<string | null>(null)
   const { data: posts, isLoading } = useGetPostsByUserIdQuery(userId)
 
-  console.log('posts', posts)
-
   if (isLoading) {
     return <Loader pageLoading />
   }
@@ -40,8 +38,8 @@ const PostList = ({ userId }: PostListProp) => {
             key={post.id}
             imageUrl={post.imageUrl}
             onOpen={() => setSelectedPost(post.id)}
-            comments={post.comments.length}
-            likes={post.likes.length}
+            comments={post._count.comments}
+            likes={post._count.likes}
           />
         ))}
       </div>

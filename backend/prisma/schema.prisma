@@ -8,6 +8,11 @@ datasource db {
   provider = "postgresql"
 }
 
+enum AppLangEnum {
+  en
+  uk
+}
+
 model User {
   id String @id @default(cuid())
   avatarUrl  String @default("default-avatar.png")
@@ -16,6 +21,7 @@ model User {
   email String @unique
   password String
   status String
+  appLang AppLangEnum @default(en)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   

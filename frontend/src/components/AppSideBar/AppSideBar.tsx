@@ -34,16 +34,28 @@ const AppSideBar = () => {
     }
   }
   const menuItems = [
-    { to: '/', icon: Home, label: 'Home' },
-    { to: '/direct', icon: Send, label: 'Direct' },
-    { to: '/create-post', icon: BadgePlus, label: 'Create' },
-    { to: '/profile/settings', icon: Settings, label: 'Settings' },
+    { to: '/', icon: Home, label: t('common.userLabels.home') },
+    { to: '/direct', icon: Send, label: t('common.userLabels.direct') },
+    {
+      to: '/create-post',
+      icon: BadgePlus,
+      label: t('common.userLabels.create'),
+    },
+    {
+      to: '/profile/settings',
+      icon: Settings,
+      label: t('common.userLabels.settings'),
+    },
   ]
+
+  const profileItem = {
+    to: '/profile',
+    icon: User,
+    label: t('common.userLabels.profile'),
+  }
+
   return (
-    <Sidebar
-      collapsible='icon'
-      className='bg-black border-r-[20px] border-white'
-    >
+    <Sidebar collapsible='icon' className='bg-black'>
       <SidebarHeader className='w-full border-b border-white bg-black'>
         <div>
           <img
@@ -64,11 +76,16 @@ const AppSideBar = () => {
                 <SidebarMenuItem key={to}>
                   <SidebarMenuButton
                     isActive={location.pathname === to}
-                    className='!bg-black !rounded-2xl hover:!bg-white transition-colors duration-150'
+                    className={`!p-0 transition-colors duration-150 ${
+                      location.pathname === to
+                        ? '!bg-white !text-black'
+                        : '!bg-black !text-white hover:!bg-white hover:!text-black'
+                    }
+                  `}
                   >
                     <Link
                       onClick={() => setOpenMobile(false)}
-                      className='w-full flex justify-center p-1 text-white hover:!text-black font-bold gap-2'
+                      className='w-full flex justify-center p-1 font-bold gap-2'
                       to={to}
                     >
                       <Icon className='!w-5 !h-5 shrink-0' />
@@ -88,15 +105,22 @@ const AppSideBar = () => {
         <SidebarContent>
           <SidebarMenu className='mb-8'>
             <SidebarMenuItem>
-              <SidebarMenuButton className='!bg-black !rounded-2xl hover:!bg-white'>
+              <SidebarMenuButton
+                isActive={location.pathname === profileItem.to}
+                className={`!p-0 transition-colors duration-150 ${
+                  location.pathname === profileItem.to
+                    ? '!bg-white !text-black'
+                    : '!bg-black !text-white hover:!bg-white hover:!text-black'
+                } `}
+              >
                 <Link
                   onClick={() => setOpenMobile(false)}
-                  className='w-full flex justify-center p-1 text-white hover:!text-black font-bold gap-2'
-                  to='/profile'
+                  className='w-full flex justify-center p-1 font-bold gap-2'
+                  to={profileItem.to}
                 >
                   <User className='!w-5 !h-5 shrink-0' />
                   <span className='group-data-[state=collapsed]:hidden'>
-                    {t('user.profile')}
+                    {profileItem.label}
                   </span>
                 </Link>
               </SidebarMenuButton>

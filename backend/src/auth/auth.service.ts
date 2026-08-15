@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { RegisterRequest, LoginRequest } from './dto/auth.dto';
-import { hash } from 'argon2';
+import { hash, verify } from 'argon2';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import type { JwtPayload } from './interfaces/jwt.interface';
@@ -36,12 +36,12 @@ export class AuthService {
   }
 
   async register(res: Response, dto: RegisterRequest) {
-    const { nickname, fullname, email, password, avatarUrl } = dto;
+    const { nickname, fullname, email, password, avatarUrl, appLang } = dto;
     const existUser = await this.prismaService.user.findUnique({
       where: { email },
     });
     if (existUser) {
-      throw new ConflictException('User already registered');
+      throw new ConflictException({ code: 'USER_ALREADY_REGISTERED' });
     }
 
     const hashedPassword = await hash(password);
@@ -53,6 +53,7 @@ export class AuthService {
         email,
         password: hashedPassword,
         avatarUrl,
+        appLang,
         status: '',
       },
       select: {
@@ -60,6 +61,7 @@ export class AuthService {
         nickname: true,
         fullname: true,
         email: true,
+        appLang: true,
         avatarUrl: true,
       },
     });
@@ -68,14 +70,19 @@ export class AuthService {
   }
 
   async login(res: Response, dto: LoginRequest) {
-    const { email } = dto;
+    const { email, password } = dto;
     const user = await this.prismaService.user.findUnique({
       where: { email },
-      select: { id: true },
+      select: { id: true, password: true },
     });
 
     if (!user) {
-      throw new NotFoundException('User not registered');
+      throw new NotFoundException({ code: 'USER_NOT_REGISTERED' });
+    }
+
+    const isValidPassword = await verify(user.password, password);
+    if (!isValidPassword) {
+      throw new UnauthorizedException({ code: 'INVALID_CREDENTIALS' });
     }
     return this.auth(res, user.id);
   }
@@ -97,7 +104,7 @@ export class AuthService {
   async refresh(req: Request, res: Response) {
     const refreshToken = req.cookies['refreshToken'] as StringValue;
     if (!refreshToken) {
-      throw new UnauthorizedException('');
+      throw new UnauthorizedException({ code: 'INVALID_REFRESH_TOKEN' });
     }
 
     const payload: JwtPayload = await this.jwtService.verify(refreshToken);

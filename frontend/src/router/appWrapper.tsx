@@ -5,7 +5,9 @@ import ProfileLayout from '@/layouts/ProfileLayout/ProfileLayout'
 import ProtectedLayout from '@/layouts/ProtectedLayout/ProtectedLayout'
 import CreatePostPage from '@/pages/CreatePostPage/CreatePostPage'
 import { checkAuth } from '@/redux/reducer'
-import { Suspense, lazy, useLayoutEffect, useRef } from 'react'
+import { useGetMeQuery } from '@/services/userService'
+import { Suspense, lazy, useEffect, useLayoutEffect, useRef } from 'react'
+import { useTranslation } from 'react-i18next'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
 const HomePage = lazy(() => import('@/pages/HomePage/HomePage'))
@@ -26,6 +28,16 @@ const AppWrapper = () => {
   const checkAuthRef = useRef(false)
   const dispatch = useAppDispatch()
   const { authChecked } = useAppSelector((state) => state.appUser)
+  const { i18n } = useTranslation()
+  const { data: me } = useGetMeQuery()
+
+  useEffect(() => {
+    if (!me?.appLang) return
+    if (me.appLang !== i18n.language) {
+      i18n.changeLanguage(me.appLang)
+    }
+    localStorage.setItem('lang', me.appLang)
+  }, [me?.appLang, i18n])
 
   useLayoutEffect(() => {
     if (!checkAuthRef.current) {

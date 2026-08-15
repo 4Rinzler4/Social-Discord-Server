@@ -16,13 +16,16 @@ import { Eye, EyeOff } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import AlertModal from '@/components/AlertModal/AlertModal'
+import type { FetchBaseQueryError } from '@reduxjs/toolkit/query'
+import type { ApiError } from '@/interfaces/errorInterfaces'
 
 const SignUpForm = () => {
   const [signUpUser, { data, isSuccess }] = useSignUpMutation()
-  const [showPassword, setShowPassword] = useState(false)
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
-  const [showAlert, setShowAlert] = useState(false)
-  const { t } = useTranslation()
+  const [showPassword, setShowPassword] = useState<boolean>(false)
+  const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(false)
+  const [showAlert, setShowAlert] = useState<boolean>(false)
+  const [errorCode, setErrorCode] = useState<string | null>(null)
+  const { t, i18n } = useTranslation()
   const navigate = useNavigate()
 
   const {
@@ -42,11 +45,16 @@ const SignUpForm = () => {
   }
 
   const onSubmit = async (data: SignUpFormData) => {
+    const appLang = i18n.language
     try {
-      await signUpUser(data).unwrap()
+      await signUpUser({ ...data, appLang }).unwrap()
       reset()
     } catch (error) {
-      console.log('Sign Up failed', error)
+      const ApiError = error as FetchBaseQueryError
+      if ('data' in ApiError) {
+        const data = ApiError.data as ApiError
+        setErrorCode(data.code)
+      }
       setShowAlert(true)
     }
   }
@@ -64,13 +72,14 @@ const SignUpForm = () => {
 
   return (
     <>
-      {showAlert ? (
+      {showAlert && (
         <AlertModal
+          className='block md:absolute top-0 left-0 w-full'
           title={t('errors.signUp.errorTitle')}
-          description={t('errors.signUp.errorDescription')}
+          description={t(`errors.${errorCode}`)}
           onClose={handleCloseAlert}
         />
-      ) : null}
+      )}
       <Card className='w-full py-4 ring-0 border-bottom shadow-none rounded-none p-0 gap-0'>
         <CardHeader className='text-center font-bold text-2xl pt-7'>
           {t('form.signup')}
@@ -84,7 +93,7 @@ const SignUpForm = () => {
               <Input
                 {...register('nickname')}
                 id='nickname'
-                placeholder='Example Nickname...'
+                placeholder={t('form.labels.nickname')}
                 className='text-lg'
                 aria-invalid={!!errors.nickname}
               />
@@ -99,7 +108,7 @@ const SignUpForm = () => {
               <Input
                 {...register('fullname')}
                 id='fullname'
-                placeholder='Example Fullname...'
+                placeholder={t('form.labels.fullname')}
                 className='text-lg'
                 aria-invalid={!!errors.fullname}
               />
@@ -114,7 +123,7 @@ const SignUpForm = () => {
               <Input
                 {...register('email')}
                 id='email'
-                placeholder='Example@mail.com'
+                placeholder={t('form.labels.email')}
                 className='text-lg'
                 aria-invalid={!!errors.email}
               />
@@ -131,7 +140,7 @@ const SignUpForm = () => {
                   {...register('password')}
                   id='password'
                   type={showPassword ? 'text' : 'password'}
-                  placeholder='Password'
+                  placeholder={t('form.labels.password')}
                   className='pr-10 text-lg'
                   aria-invalid={!!errors.password}
                 />
@@ -158,7 +167,7 @@ const SignUpForm = () => {
                   {...register('confirmPassword')}
                   id='confirmPassword'
                   type={showConfirmPassword ? 'text' : 'password'}
-                  placeholder='Confirm Password'
+                  placeholder={t('form.labels.confirmPassword')}
                   className='text-lg'
                   aria-invalid={!!errors.confirmPassword}
                 />

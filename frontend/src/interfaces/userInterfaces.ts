@@ -6,6 +6,7 @@ export interface SignUpParams {
   fullname: string
   email: string
   password: string
+  appLang: string
 }
 
 export interface LogInResponse {

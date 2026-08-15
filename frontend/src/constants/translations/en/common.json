@@ -1,4 +1,12 @@
 {
+  "userLabels": {
+    "home": "Home",
+    "direct": "Direct",
+    "create": "Create",
+    "settings": "Settings",
+    "profile": "Profile",
+    "logout": "Log out"
+  },
   "home": "Home",
   "about": "About",
   "games": "Games",

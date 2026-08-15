@@ -5,12 +5,18 @@ import { Progress } from '../ui/progress'
 type AlertModalProps = {
   title: string
   description: string
+  className?: string
   onClose: () => void
 }
 
 const DURATION = 5000
 
-const AlertModal = ({ title, description, onClose }: AlertModalProps) => {
+const AlertModal = ({
+  title,
+  description,
+  onClose,
+  className,
+}: AlertModalProps) => {
   const [progress, setProgress] = useState(100)
 
   useEffect(() => {
@@ -32,7 +38,7 @@ const AlertModal = ({ title, description, onClose }: AlertModalProps) => {
   }, [onClose])
 
   return (
-    <Alert>
+    <Alert className={className}>
       <AlertTitle>{title}</AlertTitle>
       <AlertDescription>{description}</AlertDescription>
 

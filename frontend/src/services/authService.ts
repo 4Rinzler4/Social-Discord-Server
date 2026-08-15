@@ -9,7 +9,7 @@ import type {
   LogInResponse,
   SignUpParams,
   SignUpResponse,
-} from '@/interfaces/user-interfaces'
+} from '@/interfaces/userInterfaces'
 import { userService } from './userService'
 import { clearAccessToken, setAccessToken } from './tokenService'
 

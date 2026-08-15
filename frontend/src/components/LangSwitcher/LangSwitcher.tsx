@@ -7,26 +7,24 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { useEffect } from 'react'
+import { useUpdateLangMutation } from '@/services/userService'
+import type { Lang } from '@/types/commonTypes'
 import { useTranslation } from 'react-i18next'
 
 const LangSwitcher = () => {
   const { t, i18n } = useTranslation()
-  const language = i18n.language
+  const [updateLang] = useUpdateLangMutation()
 
-  const handleChangeLang = (lang: string) => {
-    i18n.changeLanguage(lang)
+  const handleChangeLang = async (lang: Lang) => {
+    if (lang !== 'en' && lang !== 'uk') return
+    await i18n.changeLanguage(lang)
     localStorage.setItem('lang', lang)
+    await updateLang({ appLang: lang })
   }
 
-  useEffect(() => {
-    const savedLng = localStorage.getItem('lang') ?? 'en'
-    i18n.changeLanguage(savedLng)
-  }, [i18n])
-
   return (
-    <Select value={language} onValueChange={handleChangeLang}>
-      <SelectTrigger className='w-[140px] md:w-[200px]  text-white'>
+    <Select value={i18n.language} onValueChange={handleChangeLang}>
+      <SelectTrigger className='w-[140px] md:w-[200px] text-white'>
         <SelectValue placeholder={t('common.lang')} />
       </SelectTrigger>
 
@@ -35,7 +33,6 @@ const LangSwitcher = () => {
           <SelectLabel>{t('common.lang')}</SelectLabel>
 
           <SelectItem value='uk'>{t('common.uk')}</SelectItem>
-
           <SelectItem value='en'>{t('common.en')}</SelectItem>
         </SelectGroup>
       </SelectContent>
