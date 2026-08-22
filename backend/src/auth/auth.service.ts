@@ -5,7 +5,12 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { RegisterRequest, LoginRequest } from './dto/auth.dto';
+import {
+  RegisterRequest,
+  LoginRequest,
+  ForgotPasswordDto,
+  ResetPasswordDto,
+} from './dto/auth.dto';
 import { hash, verify } from 'argon2';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
@@ -13,18 +18,25 @@ import type { JwtPayload } from './interfaces/jwt.interface';
 import { StringValue } from 'ms';
 import type { Response, Request } from 'express';
 import { isDev } from '../utils/is-dev.util';
+import { TYPE_TOKENS } from '../consts/common';
+import { MailService } from '../mail/mail.service';
+
+const { RESET_TOKEN } = TYPE_TOKENS;
 
 @Injectable()
 export class AuthService {
   private readonly JWT_ACCESS_TOKEN_TTL: string;
   private readonly JWT_REFRESH_TOKEN_TTL: string;
+  private readonly JWT_RESET_TOKEN_TTL: string;
 
   private readonly COOKIE_DOMAIN: string;
+  private readonly CLIENT_URL: string;
 
   constructor(
     private readonly prismaService: PrismaService,
     private readonly configService: ConfigService,
     private readonly jwtService: JwtService,
+    private readonly mailService: MailService,
   ) {
     this.JWT_ACCESS_TOKEN_TTL = configService.getOrThrow<string>(
       'JWT_ACCESS_TOKEN_TTL',
@@ -32,7 +44,11 @@ export class AuthService {
     this.JWT_REFRESH_TOKEN_TTL = configService.getOrThrow<string>(
       'JWT_REFRESH_TOKEN_TTL',
     );
+    this.JWT_RESET_TOKEN_TTL = configService.getOrThrow<string>(
+      'JWT_RESET_TOKEN_TTL',
+    );
     this.COOKIE_DOMAIN = configService.getOrThrow<string>('COOKIE_DOMAIN');
+    this.CLIENT_URL = configService.getOrThrow<string>('CLIENT_URL');
   }
 
   async register(res: Response, dto: RegisterRequest) {
@@ -123,6 +139,33 @@ export class AuthService {
     }
   }
 
+  async forgotPassword(dto: ForgotPasswordDto) {
+    const user = await this.prismaService.user.findUnique({
+      where: {
+        email: dto.email,
+      },
+      select: {
+        id: true,
+        email: true,
+        appLang: true,
+      },
+    });
+
+    if (!user) return;
+
+    const resetToken = this.generateResetToken(user.id);
+    const resetUrl = `${this.CLIENT_URL}/reset-password?resetToken=${resetToken}`;
+
+    await this.mailService.sendPasswordResetEmail({
+      email: user.email,
+      resetUrl: resetUrl,
+      language: user.appLang,
+    });
+    return { message: 'The password link has been sended' };
+  }
+
+  async resetPassword(dto: ResetPasswordDto) {}
+
   private auth(res: Response, id: string) {
     const { accessToken, refreshToken } = this.generateTokens(id);
 
@@ -146,6 +189,16 @@ export class AuthService {
     });
 
     return { accessToken, refreshToken };
+  }
+
+  private generateResetToken(id: string) {
+    const payload: JwtPayload = { id, type: RESET_TOKEN };
+
+    const resetToken = this.jwtService.sign(payload, {
+      expiresIn: this.JWT_RESET_TOKEN_TTL as StringValue,
+    });
+
+    return { resetToken };
   }
 
   private setCookie(res: Response, value: string, expires: Date) {

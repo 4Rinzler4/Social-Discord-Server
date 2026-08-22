@@ -9,6 +9,7 @@ import { SupabaseModule } from './supabase/supabase.module';
 import { PostModule } from './post/post.module';
 import { LikeModule } from './like/like.module';
 import { CommentModule } from './comment/comment.module';
+import { MailModule } from './mail/mail.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { CommentModule } from './comment/comment.module';
     PostModule,
     CommentModule,
     LikeModule,
+    MailModule,
   ],
   controllers: [AppController],
   providers: [AppService],

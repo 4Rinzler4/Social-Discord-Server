@@ -22,7 +22,7 @@ const LoginDialog = ({ onSwitch }: LoginDialogProps) => {
         <div className='relative flex flex-1 flex-col justify-center'>
           <LoginForm />
           <div className='flex justify-center items-center w-full'>
-            <TypographyP className=''>{t('form.!haveAccount')}</TypographyP>
+            <TypographyP>{t('form.!haveAccount')}</TypographyP>
             <Button
               data-cursor='hover'
               variant='link'

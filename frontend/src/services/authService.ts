@@ -19,8 +19,8 @@ export const AuthService = {
   refresh: (): Promise<AxiosResponse> => {
     return axiosClient.post(URLs.auth.refresh)
   },
-  forgetPassword: (email: string, lang: string): Promise<AxiosResponse> => {
-    return axiosClient.post(URLs.auth.forgetPassword, { email, lang })
+  forgetPassword: (email: string): Promise<AxiosResponse> => {
+    return axiosClient.post(URLs.auth.forgetPassword, { email })
   },
   resetPassword: (
     resetToken: string,

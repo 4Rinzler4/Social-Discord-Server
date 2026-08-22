@@ -14,3 +14,12 @@ export class LoginRequest {
   email!: string;
   password!: string;
 }
+
+export class ForgotPasswordDto {
+  email!: string;
+}
+
+export class ResetPasswordDto {
+  resetToken!: string;
+  newPassword!: string;
+}

@@ -116,6 +116,15 @@ const LoginForm = () => {
             </Field>
             {errors.password && <FieldError errors={[errors.password]} />}
           </FieldGroup>
+
+          <Button
+            data-cursor='hover'
+            className='w-full flex justify-end font-semibold'
+            variant='link'
+          >
+            Forgot Password?
+          </Button>
+
           <div className='h-25 py-3 gap-1 flex flex-col'>
             <Button
               className='w-full h-10 font-bold'

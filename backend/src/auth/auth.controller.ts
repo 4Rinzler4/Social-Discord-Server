@@ -4,12 +4,18 @@ import {
   Get,
   HttpCode,
   HttpStatus,
+  Patch,
   Post,
   Req,
   Res,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { LoginRequest, RegisterRequest } from './dto/auth.dto';
+import {
+  ForgotPasswordDto,
+  LoginRequest,
+  RegisterRequest,
+  ResetPasswordDto,
+} from './dto/auth.dto';
 import type { Response, Request } from 'express';
 import { Authorization } from './decorators/authorization.guard';
 import { Authorized } from './decorators/authorized.guard';
@@ -60,5 +66,17 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   async me(@Authorized('id') userId: string) {
     return this.userService.getUserById(userId);
+  }
+
+  @Post('forgot-password')
+  @HttpCode(HttpStatus.OK)
+  async forgotPassword(@Body() dto: ForgotPasswordDto) {
+    return this.authService.forgotPassword(dto);
+  }
+
+  @Patch('reset-password')
+  @HttpCode(HttpStatus.OK)
+  async resetPassword(@Body() dto: ResetPasswordDto) {
+    return this.authService.resetPassword(dto);
   }
 }
