@@ -18,12 +18,15 @@ import { useNavigate } from 'react-router-dom'
 import AlertModal from '@/components/AlertModal/AlertModal'
 import type { ApiError } from '@/interfaces/errorInterfaces'
 import type { FetchBaseQueryError } from '@reduxjs/toolkit/query'
+import { useModalContext } from '@/context/modalContext'
+import ForgotPasswordModal from '@/components/ForgotPasswordModal/ForgotPasswordModal'
 
 const LoginForm = () => {
   const [loginUser, { data, isSuccess }] = useLoginMutation()
   const [showPassword, setShowPassword] = useState<boolean>(false)
   const [showAlert, setShowAlert] = useState<boolean>(false)
   const [errorCode, setErrorCode] = useState<string | null>(null)
+  const { openModal } = useModalContext()
 
   const { t } = useTranslation()
   const navigate = useNavigate()
@@ -54,6 +57,10 @@ const LoginForm = () => {
 
   const handleResetForm = () => {
     reset()
+  }
+
+  const openForgotModal = () => {
+    openModal({ component: <ForgotPasswordModal /> })
   }
 
   useEffect(() => {
@@ -119,10 +126,12 @@ const LoginForm = () => {
 
           <Button
             data-cursor='hover'
+            type='button'
             className='w-full flex justify-end font-semibold'
             variant='link'
+            onClick={openForgotModal}
           >
-            Forgot Password?
+            {t('form.forgotPassword')}
           </Button>
 
           <div className='h-25 py-3 gap-1 flex flex-col'>

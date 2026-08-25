@@ -8,6 +8,7 @@ import type { FC } from 'react'
 import PostDescription from '@/components/PostModal/components/PostDescription/PostDescription'
 import { Avatar, AvatarImage } from '@/components/ui/avatar'
 import CommentInput from './components/CommentInput/CommentInput'
+import CommentList from './components/CommentsList/CommentList'
 
 type PostModalProps = {
   postId: string
@@ -74,6 +75,7 @@ const PostModal: FC<PostModalProps> = ({ postId, onClose }) => {
               <PostDropMenu postId={post.id} onClose={onClose} />
             </div>
           )}
+          <CommentList postId={post.id} />
           <div className=''>
             <CommentInput />
           </div>

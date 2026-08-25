@@ -32,23 +32,39 @@ export type PostResponse = {
   }
 }
 
-export type CommentResponse = {
-  id: string
-  userId: string
-  postId: string
-  content: string
-  createdAt: string
-  user: {
-    id: string
-    nickname: string
-    avatarUrl: string
-  }
-}
-
 export type FollowersResponse = {
   userId: string
 }
 
 export type FollowingsResponse = {
   userId: string
+}
+
+export type CreatePostParams = {
+  image: File
+  description?: string
+}
+
+export type CommentUser = {
+  id: string
+  nickname: string
+  avatarUrl: string
+}
+
+export type CreateCommentParam = {
+  text: string
+  postId: string
+}
+
+export type CommentResponse = {
+  id: string
+  userId: string
+  postId: string
+  text: string
+  createdAt: string
+  user: {
+    id: string
+    nickname: string
+    avatarUrl: string
+  }
 }

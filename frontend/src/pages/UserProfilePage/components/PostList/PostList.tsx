@@ -11,14 +11,10 @@ type PostListProp = {
 
 const PostList = ({ userId }: PostListProp) => {
   const [selectedPost, setSelectedPost] = useState<string | null>(null)
-  const { data: posts, isLoading } = useGetPostsByUserIdQuery(userId)
+  const { data: posts = [], isLoading } = useGetPostsByUserIdQuery(userId)
 
   if (isLoading) {
     return <Loader pageLoading />
-  }
-
-  if (!posts) {
-    return null
   }
 
   if (posts.length === 0) {

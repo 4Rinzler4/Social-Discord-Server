@@ -18,4 +18,9 @@ export const URLs = {
     delete: '/post',
     getByUserId: '/post/user',
   },
+  comment: {
+    getCommentsByPost: '/comment/post',
+    create: '/comment/create',
+    delete: '/comment',
+  },
 }

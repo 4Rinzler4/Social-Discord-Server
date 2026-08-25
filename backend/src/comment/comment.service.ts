@@ -24,9 +24,18 @@ export class CommentService {
   async getCommentsByPostId(postId: string) {
     const comments = await this.prismaService.comment.findMany({
       where: { postId: postId },
+      include: {
+        user: {
+          select: {
+            id: true,
+            nickname: true,
+            avatarUrl: true,
+          },
+        },
+      },
     });
 
-    return { comments };
+    return comments;
   }
 
   async deleteComment(userId: string, commentId: string) {

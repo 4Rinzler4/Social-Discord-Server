@@ -2,7 +2,7 @@ import { URLs } from '@/constants/requests'
 import { appApi } from '@/redux/apiSlice'
 import type { Lang } from '@/types/commonTypes'
 import { ApiMethod } from '@/types/enums/commonEnums'
-import type { LangParam, UserResponse } from '@/types/responseTypes'
+import type { LangParam, UserResponse } from '@/types/servicesTypes'
 
 const { GET, PATCH } = ApiMethod
 
